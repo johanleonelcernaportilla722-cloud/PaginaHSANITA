@@ -13,6 +13,10 @@ const blog = defineCollection({
     tema: z.enum(["arqueologia", "playa", "ruta", "naturaleza", "comida"]),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),    // true = no se publica
+    // Foto de portada (opcional). Si no hay, se usa la ilustración del tema.
+    imagen: z.string().optional(),        // URL o ruta, ej. "/img/blog/caral.webp"
+    imagenAlt: z.string().optional(),
+    credito: z.object({ autor: z.string(), licencia: z.string(), url: z.string() }).optional(),
   }),
 });
 

@@ -4,6 +4,12 @@ description: "Itinerario de fin de semana desde Barranca: Caral y Áspero el pri
 pubDate: 2026-11-22
 tema: ruta
 tags: [Norte Chico, itinerario Barranca, fin de semana cerca de Lima, Caral, Paramonga]
+imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Paramonga_Fortress_%26_Observatory%2C_Peru.jpg/500px-Paramonga_Fortress_%26_Observatory%2C_Peru.jpg"
+imagenAlt: "Fortaleza de Paramonga al atardecer"
+credito:
+  autor: "Sophie Robson"
+  licencia: "CC BY-SA 2.0"
+  url: "https://commons.wikimedia.org/wiki/File:Paramonga_Fortress_%26_Observatory%2C_Peru.jpg"
 ---
 
 ¿Tienes un fin de semana libre? Con Barranca como base puedes conocer lo mejor del Norte Chico sin correr. Este es el itinerario que recomendamos a nuestros huéspedes.

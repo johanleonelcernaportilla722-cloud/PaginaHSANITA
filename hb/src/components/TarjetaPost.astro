@@ -3,10 +3,16 @@ import { u } from "../utils/url";
 import Portada from "./Portada.astro";
 import { temas, fecha, minutos } from "../utils/blog";
 const { post } = Astro.props;
+const src = (x: string) => (x.startsWith("http") ? x : u(x));
 ---
 <article class="tpost">
   <a href={u(`/blog/${post.id}/`)} class="tpost-link">
-    <Portada tema={post.data.tema} alto={180} />
+    {post.data.imagen ? (
+      <figure class="tpost-foto">
+        <img src={src(post.data.imagen)} alt={post.data.imagenAlt ?? post.data.title} width="500" height="300" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+        {post.data.credito && <figcaption>Foto: {post.data.credito.autor}, {post.data.credito.licencia}</figcaption>}
+      </figure>
+    ) : <Portada tema={post.data.tema} alto={180} />}
     <div class="tpost-in">
       <p class="tpost-meta">{temas[post.data.tema]}, {minutos(post.body)} min de lectura</p>
       <h3>{post.data.title}</h3>
@@ -20,6 +26,11 @@ const { post } = Astro.props;
 .tpost{border:2px solid var(--line);border-radius:18px;overflow:hidden;background:var(--bg)}
 .tpost:hover{border-color:var(--sea)}
 .tpost-link{display:block;text-decoration:none;color:inherit;height:100%}
+.tpost-foto{position:relative;margin:0;aspect-ratio:5/3;overflow:hidden;background:var(--soft)}
+.tpost-foto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.tpost:hover .tpost-foto img{transform:scale(1.04)}
+@media (prefers-reduced-motion:reduce){.tpost-foto img{transition:none}}
+.tpost-foto figcaption{position:absolute;right:6px;bottom:6px;font:500 11px/1.2 var(--text);color:#fff;background:rgba(3,49,59,.72);padding:3px 7px;border-radius:999px;max-width:calc(100% - 12px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tpost-in{padding:18px 20px 22px;display:grid;gap:8px}
 .tpost h3{font-size:22px;line-height:1.2}
 .tpost-meta,.tpost-fecha{font-size:14px;color:var(--muted)}

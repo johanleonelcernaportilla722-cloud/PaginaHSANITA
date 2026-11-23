@@ -4,6 +4,12 @@ description: "Tamal supano, tacu tacu barranquino, carapulcra, ceviche de pato, 
 pubDate: 2026-11-23
 tema: comida
 tags: [comida típica de Barranca, tamal supano, carapulcra, tacu tacu barranquino, ceviche de pato, gastronomía del Norte Chico]
+imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Tacu_tacu_ba%C3%B1ado_en_sala_de_mariscos.JPG/500px-Tacu_tacu_ba%C3%B1ado_en_sala_de_mariscos.JPG"
+imagenAlt: "Tacu tacu bañado en salsa de mariscos"
+credito:
+  autor: "Dtarazona"
+  licencia: "Dominio público"
+  url: "https://commons.wikimedia.org/wiki/File:Tacu_tacu_ba%C3%B1ado_en_sala_de_mariscos.JPG"
 ---
 
 En Barranca se come muy bien. La provincia junta lo mejor del mar y del valle: pescado fresco de las caletas, frejol y arroz de las chacras, pato, cerdo y dulces caseros. Si vienes a conocer Caral o las playas, guarda espacio para estos platos.
@@ -58,6 +64,6 @@ Barranca también tiene su lado dulce: **buñuelos, alfajores, turrones e higos 
 - **Almuerza en la playa** si estás en Puerto Chico o Chorrillos: el pescado es del día.
 - **Pregunta a los locales.** Cada familia tiene su sitio favorito para el tacu tacu.
 
-¿Te quedas en el [Hostal Anita](../../)? Estamos a una cuadra de la plaza, cerca del mercado. Escríbenos y te decimos dónde comer cada plato.
+¿Te quedas en el [Hostal Anita](../../)? Estamos a una cuadra de la plaza, cerca del mercado.
 
 *Fuentes: Agencia Andina (gastronomía de Barranca y del Norte Chico).*

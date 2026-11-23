@@ -4,6 +4,12 @@ description: "El templo de adobe de la cultura Chimú en Paramonga: su historia,
 pubDate: 2026-11-22
 tema: arqueologia
 tags: [Fortaleza de Paramonga, Paramonga, Chimú, Barranca, Pativilca]
+imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Paramonga_8.jpg/500px-Paramonga_8.jpg"
+imagenAlt: "Fortaleza de Paramonga con cielo azul"
+credito:
+  autor: "Johnattan Rupire"
+  licencia: "CC BY-SA 4.0"
+  url: "https://commons.wikimedia.org/wiki/File:Paramonga_8.jpg"
 ---
 
 Al norte de Barranca, junto a la Panamericana, aparece una enorme construcción escalonada de adobe que llama la atención de cualquiera que pasa por la carretera: la **Fortaleza de Paramonga**.

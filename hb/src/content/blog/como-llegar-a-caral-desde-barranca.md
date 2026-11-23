@@ -4,6 +4,12 @@ description: "Guía práctica para visitar la Ciudad Sagrada de Caral desde Barr
 pubDate: 2026-11-22
 tema: arqueologia
 tags: [Caral, cómo llegar a Caral, Ciudad Sagrada de Caral, Barranca, Supe]
+imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Pir%C3%A1mide_Caral_2_pisos.jpg/500px-Pir%C3%A1mide_Caral_2_pisos.jpg"
+imagenAlt: "Pirámide de la Ciudad Sagrada de Caral"
+credito:
+  autor: "Juanmeneses7"
+  licencia: "CC BY-SA 4.0"
+  url: "https://commons.wikimedia.org/wiki/File:Pir%C3%A1mide_Caral_2_pisos.jpg"
 ---
 
 La **Ciudad Sagrada de Caral** es el atractivo más famoso del Norte Chico y una de las visitas arqueológicas más importantes del Perú. Barranca es la base perfecta para conocerla: estás a pocos kilómetros del desvío y puedes salir temprano sin madrugar desde Lima.

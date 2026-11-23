@@ -4,6 +4,12 @@ description: "Caral, playas, la Fortaleza de Paramonga, la Albufera de Medio Mun
 pubDate: 2026-11-22
 tema: ruta
 tags: [Barranca, qué hacer en Barranca, Norte Chico, turismo cerca de Lima]
+imagen: "https://upload.wikimedia.org/wikipedia/commons/c/ca/Cristo_redentor_barranca.jpg"
+imagenAlt: "Cristo Redentor de Barranca"
+credito:
+  autor: "Juliogp"
+  licencia: "CC BY-SA 3.0"
+  url: "https://commons.wikimedia.org/wiki/File:Cristo_redentor_barranca.jpg"
 ---
 
 Barranca es la provincia costera más al norte del departamento de Lima, a unos **190 km de la capital y cerca de 3 horas por la Panamericana Norte**. Mucha gente pasa de largo rumbo al norte, y se pierde uno de los destinos más completos cerca de Lima: arqueología de 5000 años, playas tranquilas y una cocina que justifica el viaje por sí sola.

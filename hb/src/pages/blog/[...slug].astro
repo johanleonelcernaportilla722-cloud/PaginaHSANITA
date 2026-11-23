@@ -8,6 +8,7 @@ import Portada from "../../components/Portada.astro";
 import TarjetaPost from "../../components/TarjetaPost.astro";
 import { posts, temas, fecha, minutos } from "../../utils/blog";
 import { hostal } from "../../data/hostal";
+const grande = (x: string) => (x.startsWith("http") ? x.replace("/500px-", "/960px-") : u(x));
 
 export async function getStaticPaths() {
   const lista = await posts();
@@ -50,7 +51,14 @@ const jsonld = [
           <p class="post-meta">Por {hostal.nombre}, <time datetime={post.data.pubDate.toISOString()}>{fecha(post.data.pubDate)}</time>. {minutos(post.body)} min de lectura.</p>
         </div>
       </header>
-      <div class="wrap angosto portada-post"><Portada tema={post.data.tema} alto={300} /></div>
+      <div class="wrap angosto portada-post">
+        {post.data.imagen ? (
+          <figure class="post-foto">
+            <img src={grande(post.data.imagen)} alt={post.data.imagenAlt ?? post.data.title} width="960" height="540" decoding="async" fetchpriority="high" referrerpolicy="no-referrer" />
+            {post.data.credito && <figcaption>Foto: <a href={post.data.credito.url} rel="noopener" target="_blank">{post.data.credito.autor}</a>, {post.data.credito.licencia}, vía Wikimedia Commons</figcaption>}
+          </figure>
+        ) : <Portada tema={post.data.tema} alto={300} />}
+      </div>
       <div class="band wrap angosto post-cuerpo">
         {headings.filter((h) => h.depth === 2).length > 2 && (
           <nav class="indice" aria-label="Contenido del artículo">
@@ -81,6 +89,10 @@ const jsonld = [
   <Footer />
 </Base>
 <style>
+.post-foto{margin:0}
+.post-foto img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:20px;display:block;background:var(--soft)}
+.post-foto figcaption{font-size:13px;color:var(--muted);margin-top:8px}
+.post-foto figcaption a{color:inherit}
 .angosto{max-width:780px;margin:0 auto}
 .post-cab{padding-bottom:28px}
 .post-cab h1{font-size:clamp(32px,5vw,50px);color:var(--sea-ink)}

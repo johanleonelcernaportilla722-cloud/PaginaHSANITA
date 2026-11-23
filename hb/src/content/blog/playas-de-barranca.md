@@ -4,6 +4,12 @@ description: "Chorrillos, Miraflores, Puerto Chico, El Colorado, Bandurria, Atar
 pubDate: 2026-11-22
 tema: playa
 tags: [playas de Barranca, Puerto Chico, playa Chorrillos, Supe Puerto, playas cerca de Lima]
+imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/PLAYA_LA_ATARRAYA_-_panoramio.jpg/500px-PLAYA_LA_ATARRAYA_-_panoramio.jpg"
+imagenAlt: "Playa La Atarraya en Barranca"
+credito:
+  autor: "Juan Arturo"
+  licencia: "CC BY-SA 3.0"
+  url: "https://commons.wikimedia.org/wiki/File:PLAYA_LA_ATARRAYA_-_panoramio.jpg"
 ---
 
 Barranca tiene uno de los litorales más bonitos del norte de Lima. En verano llegan miles de visitantes desde Lima y el sur chico, pero fuera de temporada encuentras playas tranquilas para descansar de verdad.
