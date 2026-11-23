@@ -8,7 +8,6 @@ import TarjetaPost from "../components/TarjetaPost.astro";
 import ResenasBloque from "../components/ResenasBloque.astro";
 import Edificio from "../components/Edificio.astro";
 import Mapa from "../components/Mapa.astro";
-import Agenda from "../components/Agenda.astro";
 import { posts } from "../utils/blog";
 const ultimos = (await posts()).slice(0, 3);
 import { hostal, habitaciones, tranquilidad, ruta, faq } from "../data/hostal";
@@ -50,8 +49,6 @@ const year = new Date().getFullYear();
     <Edificio />
 
     <Mapa />
-
-    <Agenda />
 
     <section class="band arena">
       <div class="wrap dos">
