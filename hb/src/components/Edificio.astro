@@ -1,0 +1,357 @@
+---
+// Edificio del hostal en vista isométrica (3D). Cada ventana es una habitación:
+// al tocarla se elige el cuarto y se arma el mensaje de reserva por WhatsApp.
+import { hostal, habitaciones, edificio } from "../data/hostal";
+
+const N = edificio.ancho, D = edificio.largo;
+const pisos = [...edificio.pisos].sort((a, b) => a.piso - b.piso); // de abajo hacia arriba
+const H = 0.95;
+const F = pisos.length;
+const TOP = F * H;
+const s = 60, C = 0.866, S = 0.5;
+const ox = D * C * s + 150, oy = TOP * s + 95;
+const P = (x: number, y: number, z: number) => [(x - y) * C * s + ox, (x + y) * S * s - z * s + oy];
+const pts = (...q: number[][]) => q.map((p) => P(p[0], p[1], p[2]).map((v) => v.toFixed(1)).join(",")).join(" ");
+const W = N * C * s + ox + 170, Hh = (N + D) * S * s + oy + 60;
+
+const tipo = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
+const colorTipo: Record<string, string> = { matrimonial: "#d1a457", doble: "#08b3b2", familiar: "#e07a5f" };
+
+// rectángulo en una fachada: frente (y = D, eje x) o costado (x = N, eje y; a=0 es la esquina frontal)
+const q = (cara: string, a: number, z: number) => (cara === "frente" ? [a, D, z] : [N, D - a, z]);
+const rect = (cara: string, a0: number, a1: number, z0: number, z1: number) => pts(q(cara, a0, z0), q(cara, a1, z0), q(cara, a1, z1), q(cara, a0, z1));
+const matriz = (cara: string) => (cara === "frente" ? "0.866 0.5 0 1" : "0.866 -0.5 0 1");
+
+type Esp = { num?: string; tipo?: string; etiqueta?: string };
+const espacios = pisos.flatMap((p: any, k) => {
+  if (p.ingreso) return [];
+  const z0 = k * H, z1 = z0 + H;
+  const lista: any[] = [];
+  const add = (e: Esp, cara: string, a0: number, a1: number, ubicacion: string) => {
+    const w = a1 - a0, m = Math.min(0.22, w * 0.18);
+    const c = cara === "frente" ? P(a0 + w / 2, D, z0 + 0.48) : P(N, D - (a0 + w / 2), z0 + 0.48);
+    lista.push({
+      ...e, piso: p.piso, cara, ubicacion, h: e.tipo ? tipo[e.tipo] : null,
+      borde: rect(cara, a0, a1, z0, z1),
+      v: rect(cara, a0 + m, a1 - m, z0 + 0.22, z0 + 0.74),
+      toldo: rect(cara, a0 + m * 0.6, a1 - m * 0.6, z0 + 0.8, z0 + 0.88),
+      balcon: rect(cara, a0 + m * 0.6, a1 - m * 0.6, z0 + 0.08, z0 + 0.22),
+      txt: c, m: matriz(cara),
+    });
+  };
+  if (p.frente) add(p.frente, "frente", 0, N, "Frontal, con vista a la calle");
+  const cs: Esp[] = p.costado ?? [];
+  const seg = D / Math.max(cs.length, 1);
+  cs.forEach((e, i) => add(e, "costado", i * seg, (i + 1) * seg, i === cs.length - 1 ? "Al fondo" : "En el medio"));
+  return lista;
+});
+const cuartos = espacios.filter((e) => e.num);
+const otros = espacios.filter((e) => !e.num);
+const pisosReserva = pisos.filter((p: any) => !p.ingreso);
+
+const caras = {
+  frente: pts([0, D, 0], [N, D, 0], [N, D, TOP], [0, D, TOP]),
+  costado: pts([N, 0, 0], [N, D, 0], [N, D, TOP], [N, 0, TOP]),
+  techo: pts([0, 0, TOP], [N, 0, TOP], [N, D, TOP], [0, D, TOP]),
+  suelo: pts([-1.6, -0.8, 0], [N + 1.8, -0.8, 0], [N + 1.8, D + 1.6, 0], [-1.6, D + 1.6, 0]),
+  vereda: pts([-1.6, D + 0.3, 0], [N + 1.8, D + 0.3, 0], [N + 1.8, D + 1.6, 0], [-1.6, D + 1.6, 0]),
+  sombra: pts([N, 0, 0], [N + 1.1, 0.4, 0], [N + 1.1, D + 0.4, 0], [N, D, 0]),
+};
+const lineasPiso = Array.from({ length: F - 1 }, (_, k) => (k + 1) * H);
+const pretilF = pts([0, D, TOP], [N, D, TOP], [N, D, TOP + 0.3], [0, D, TOP + 0.3]);
+const pretilC = pts([N, 0, TOP], [N, D, TOP], [N, D, TOP + 0.3], [N, 0, TOP + 0.3]);
+const letrero = P(N + 0.02, D / 2, TOP + 0.08);
+// planta baja (piso 1): ingreso
+const puerta = rect("frente", N / 2 - 0.32, N / 2 + 0.32, 0, 0.74);
+const vIngreso = [rect("costado", 0.35, 1.25, 0.25, 0.7), rect("costado", 1.7, 2.6, 0.25, 0.7)];
+const rotIngreso = P(N / 2, D, 0.82);
+const pTop = P(N * 0.45, D * 0.3, TOP), pAlto = P(N * 0.45, D * 0.3, TOP + 0.62);
+const sombrilla = { poste: [pTop, pAlto], tela: `M${pAlto[0]-42} ${pAlto[1]+13} Q${pAlto[0]} ${pAlto[1]-28} ${pAlto[0]+42} ${pAlto[1]+13} Q${pAlto[0]} ${pAlto[1]+4} ${pAlto[0]-42} ${pAlto[1]+13}Z` };
+const palmera = P(-0.8, D + 0.9, 0);
+const precios = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
+---
+<section id="habitaciones" class="band reservar3d">
+  <span id="reservar" class="ancla" aria-hidden="true"></span>
+  <div class="wrap">
+    <h2>Habitaciones: elige la tuya en el edificio</h2>
+    <p class="lead">Todas con baño privado, agua caliente y wifi. Check-in desde las {hostal.checkIn}, check-out hasta las {hostal.checkOut} Toca una o varias ventanas para separar tus habitaciones y reservarlas por WhatsApp.</p>
+
+    <div class="r3d">
+      <div class="r3d-vista">
+        <div class="r3d-filtros" role="group" aria-label="Filtrar por piso">
+          <button type="button" class="chip activo" data-piso="todos" aria-pressed="true">Todos los pisos</button>
+          {[...pisosReserva].reverse().map((p) => <button type="button" class="chip" data-piso={p.piso} aria-pressed="false">Piso {p.piso}</button>)}
+        </div>
+        <button type="button" id="r3-todo-piso" class="r3-link r3-piso-btn" hidden></button>
+
+        <svg class="edif" viewBox={`0 0 ${W.toFixed(0)} ${Hh.toFixed(0)}`} role="group" aria-label={`Edificio de ${hostal.nombre}. Cada ventana es una habitación que puedes elegir.`}>
+          <defs>
+            <linearGradient id="e-frente" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf7ef"/><stop offset="1" stop-color="#efe6d6"/></linearGradient>
+            <linearGradient id="e-costado" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3d8c4"/><stop offset="1" stop-color="#d2c4ab"/></linearGradient>
+            <linearGradient id="e-vidrio" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bfeeee"/><stop offset="1" stop-color="#4fb3b8"/></linearGradient>
+          </defs>
+          <polygon points={caras.suelo} fill="#ebcb98"/>
+          <polygon points={caras.vereda} fill="#d9d2c3"/>
+          <polygon points={caras.sombra} fill="#b8935f" opacity=".45"/>
+          <polygon points={caras.frente} fill="url(#e-frente)"/>
+          <polygon points={caras.costado} fill="url(#e-costado)"/>
+          <polygon points={caras.techo} fill="#063f4c"/>
+          <polygon points={pretilF} fill="#0e6a7c"/>
+          <polygon points={pretilC} fill="#0a5263"/>
+          {lineasPiso.map((z) => <polyline points={pts([0, D, z], [N, D, z], [N, 0, z])} fill="none" stroke="#cbbb9f" stroke-width="2"/>)}
+
+          <!-- piso 1: ingreso -->
+          <polygon points={puerta} fill="#7a4e2c"/>
+          {vIngreso.map((v) => <polygon points={v} fill="url(#e-vidrio)" stroke="#0a5263" stroke-width="2"/>)}
+          <text transform={`matrix(0.866 0.5 0 1 ${rotIngreso[0]} ${rotIngreso[1]})`} text-anchor="middle" class="e-rot">Ingreso</text>
+
+          <!-- espacios que no se reservan (recepción, reservado) -->
+          {otros.map((o) => (
+            <g class="no-reserva">
+              <polygon points={o.v} fill="#cfc6b6" stroke="#9c927f" stroke-width="2"/>
+              <text transform={`matrix(${o.m} ${o.txt[0]} ${o.txt[1]})`} text-anchor="middle" class="e-otro">{o.etiqueta}</text>
+            </g>
+          ))}
+
+          <!-- azotea -->
+          <line x1={sombrilla.poste[0][0]} y1={sombrilla.poste[0][1]} x2={sombrilla.poste[1][0]} y2={sombrilla.poste[1][1]} stroke="#e8e0d0" stroke-width="3"/>
+          <path d={sombrilla.tela} fill="#d1a457"/>
+          <ellipse cx={pTop[0]} cy={pTop[1]} rx="28" ry="8" fill="#03313b" opacity=".6"/>
+          <text transform={`matrix(0.866 -0.5 0 1 ${letrero[0]} ${letrero[1]})`} text-anchor="middle" class="e-letrero">{hostal.nombre}</text>
+
+          <!-- palmera -->
+          <g transform={`translate(${palmera[0]} ${palmera[1]})`}>
+            <path d="M0 0 C-4 -50 4 -95 10 -125" fill="none" stroke="#6b4a2b" stroke-width="7" stroke-linecap="round"/>
+            <path d="M10 -125 c-30 -10 -55 0 -70 20 M10 -125 c25 -18 50 -14 66 4 M10 -125 c-10 -26 -30 -36 -52 -36 M10 -125 c16 -24 36 -30 56 -24" fill="none" stroke="#3f6b3a" stroke-width="7" stroke-linecap="round"/>
+          </g>
+
+          <!-- habitaciones -->
+          {cuartos.map((c) => (
+            <g class="cuarto" tabindex="0" role="button" data-num={c.num} data-tipo={c.tipo} data-piso={c.piso} data-ubi={c.ubicacion}
+               aria-label={`Habitación ${c.num}, ${c.h?.nombre ?? c.tipo}, piso ${c.piso}, ${c.ubicacion.toLowerCase()}`} aria-pressed="false">
+              <title>{`Habitación ${c.num}, ${c.h?.nombre}`}</title>
+              <polygon class="c-zona" points={c.borde}/>
+              <polygon points={c.balcon} fill="#e8dfcf"/>
+              <polygon class="c-vidrio" points={c.v} fill="url(#e-vidrio)" stroke="#0a5263" stroke-width="2"/>
+              <polygon points={c.toldo} fill={colorTipo[c.tipo] ?? "#0a5263"}/>
+              <text transform={`matrix(${c.m} ${c.txt[0]} ${c.txt[1]})`} text-anchor="middle" class="c-num">{c.num}</text>
+            </g>
+          ))}
+        </svg>
+
+        <ul class="tipos" aria-label="Tipos de habitación">
+          {habitaciones.filter((h) => cuartos.some((c) => c.tipo === h.id)).map((h) => (
+            <li style={`--c:${colorTipo[h.id] ?? "#0a5263"}`}>
+              <p class="tipo-cab"><span class="tipo-color"></span><b>{h.nombre}</b><span class="tipo-cap">{h.capacidad}</span></p>
+              <p class="tipo-det">{h.detalle}</p>
+              <p class="tipo-precio">Desde <b class="km">S/ <span data-precio={h.id}>{h.precio}</span></b> la noche, <span>{cuartos.filter((c) => c.tipo === h.id).length} habitaciones</span></p>
+            </li>
+          ))}
+        </ul>
+        <p id="r3-ocupados" class="nota" hidden><span class="dot-ocupado"></span> Las ventanas en gris están ocupadas en este momento.</p>
+      </div>
+
+      <aside class="r3d-panel">
+        <div class="r3-cab">
+          <h3 class="r3-h">Tu selección</h3>
+          <button type="button" id="r3-limpiar" class="r3-link" hidden>Quitar todas</button>
+        </div>
+        <div id="r3-vacio" class="r3-vacio">
+          <p>Toca una o varias ventanas del edificio. Puedes separar todas las habitaciones que necesites.</p>
+        </div>
+        <ul id="r3-lista" class="r3-lista" aria-live="polite"></ul>
+        <p id="r3-resumen" class="r3-resumen" hidden></p>
+
+        <label class="r3d-sel">Agregar habitación
+          <select id="r3-sel">
+            <option value="">Elegir de la lista</option>
+            {cuartos.map((c) => <option value={c.num}>{c.num}, {c.h?.nombre}, piso {c.piso} ({c.ubicacion.split(",")[0].toLowerCase()})</option>)}
+          </select>
+        </label>
+
+        <form id="r3-form" class="r3-form" data-wa={hostal.whatsapp} data-nombre={hostal.nombre} data-hab={JSON.stringify(precios)}>
+          <div class="fila">
+            <label>Llegada<input type="date" id="r3-in" /></label>
+            <label>Salida<input type="date" id="r3-out" /></label>
+          </div>
+          <div class="fila">
+            <label>Personas<input type="number" id="r3-pax" min="1" max="60" value="2" /></label>
+            <label>Tu nombre<input type="text" id="r3-nom" autocomplete="name" placeholder="Ej. María Torres" /></label>
+          </div>
+          <p id="r3-res" class="res" aria-live="polite">Elige tus habitaciones y fechas.</p>
+          <a id="r3-btn" class="btn btn-sun" href={`https://wa.me/${hostal.whatsapp}`}>Reservar por WhatsApp</a>
+        </form>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+{
+  const svg = document.querySelector('.edif');
+  const cuartos = [...document.querySelectorAll('.cuarto')];
+  const chips = [...document.querySelectorAll('.r3d-filtros .chip')];
+  const f = document.getElementById('r3-form');
+  const hab = JSON.parse(f.dataset.hab);
+  const $ = (id) => document.getElementById(id);
+  const hoy = new Date().toISOString().slice(0, 10);
+  $('r3-in').min = hoy; $('r3-out').min = hoy;
+  const sel = new Set();
+  let pisoFiltro = 'todos';
+  const fmt = (v) => v ? new Date(v + 'T12:00').toLocaleDateString('es-PE', { day: 'numeric', month: 'long' }) : '';
+  const datos = (num) => { const c = cuartos.find((x) => x.dataset.num === num); const h = hab[c.dataset.tipo] || {}; return { c, h, cap: parseInt(h.capacidad) || 0 }; };
+  const ordenados = () => [...sel].sort();
+
+  const pintar = () => {
+    cuartos.forEach((c) => { const on = sel.has(c.dataset.num); c.classList.toggle('sel', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    const lista = ordenados();
+    $('r3-vacio').hidden = lista.length > 0;
+    $('r3-limpiar').hidden = lista.length === 0;
+    $('r3-lista').innerHTML = lista.map((num) => {
+      const { c, h } = datos(num);
+      return `<li><div><b>Hab. ${num}</b> <span>${h.nombre}, piso ${c.dataset.piso}. ${c.dataset.ubi.split(',')[0]}</span><small>${h.capacidad}, desde S/ ${h.precio}</small></div><button type="button" class="r3-quitar" data-num="${num}" aria-label="Quitar habitación ${num}">Quitar</button></li>`;
+    }).join('');
+    const cap = lista.reduce((t, n) => t + datos(n).cap, 0);
+    const noche = lista.reduce((t, n) => t + datos(n).h.precio, 0);
+    $('r3-resumen').hidden = lista.length === 0;
+    $('r3-resumen').textContent = `${lista.length} ${lista.length > 1 ? 'habitaciones' : 'habitación'}, hasta ${cap} personas, desde S/ ${noche} por noche.`;
+    if (pisoFiltro !== 'todos') {
+      const delPiso = cuartos.filter((c) => c.dataset.piso === pisoFiltro);
+      const todas = delPiso.every((c) => sel.has(c.dataset.num));
+      $('r3-todo-piso').hidden = false;
+      $('r3-todo-piso').textContent = todas ? `Quitar todo el piso ${pisoFiltro}` : `Separar todo el piso ${pisoFiltro} (${delPiso.length} habitaciones)`;
+    } else $('r3-todo-piso').hidden = true;
+    actualizar();
+  };
+
+  const actualizar = () => {
+    const a = $('r3-in').value, b = $('r3-out').value;
+    const noches = a && b ? Math.round((new Date(b) - new Date(a)) / 864e5) : 0;
+    const lista = ordenados();
+    const pax = +$('r3-pax').value || 0;
+    const cap = lista.reduce((t, n) => t + datos(n).cap, 0);
+    const noche = lista.reduce((t, n) => t + datos(n).h.precio, 0);
+    let msg = `Hola, quiero reservar en ${f.dataset.nombre}.`;
+    if (lista.length) {
+      msg += lista.length > 1 ? ` Habitaciones (${lista.length}): ` : ' Habitación: ';
+      msg += lista.map((n) => { const { c, h } = datos(n); return `${n} (${h.nombre}, piso ${c.dataset.piso})`; }).join(', ') + '.';
+    }
+    let res = 'Elige tus habitaciones y fechas.';
+    if (lista.length && noches > 0) res = `${noches} noche${noches > 1 ? 's' : ''}, ${lista.length} ${lista.length > 1 ? 'habitaciones' : 'habitación'}: estimado S/ ${noches * noche}.`;
+    else if (lista.length && a && b) res = 'La salida debe ser después de la llegada.';
+    else if (lista.length) res = 'Ahora elige tus fechas.';
+    if (lista.length && pax > cap) res += ` Ojo: son ${pax} personas y lo elegido es para ${cap}. Agrega otra habitación.`;
+    $('r3-res').textContent = res;
+    if (noches > 0) msg += ` Llegada: ${fmt(a)}. Salida: ${fmt(b)} (${noches} noche${noches > 1 ? 's' : ''}).`;
+    msg += ` Personas: ${pax}.`;
+    if ($('r3-nom').value.trim()) msg += ` Mi nombre es ${$('r3-nom').value.trim()}.`;
+    $('r3-btn').href = `https://wa.me/${f.dataset.wa}?text=${encodeURIComponent(msg)}`;
+  };
+
+  const alternar = (num) => { if (!num) return; if (cuartos.find((c) => c.dataset.num === num)?.classList.contains('ocupado')) return; sel.has(num) ? sel.delete(num) : sel.add(num); pintar(); };
+  cuartos.forEach((c) => {
+    c.addEventListener('click', () => alternar(c.dataset.num));
+    c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); alternar(c.dataset.num); } });
+  });
+  $('r3-sel').addEventListener('change', (e) => { if (e.target.value) { sel.add(e.target.value); e.target.value = ''; pintar(); } });
+  $('r3-lista').addEventListener('click', (e) => { const b = e.target.closest('.r3-quitar'); if (b) { sel.delete(b.dataset.num); pintar(); } });
+  $('r3-limpiar').addEventListener('click', () => { sel.clear(); pintar(); });
+  $('r3-todo-piso').addEventListener('click', () => {
+    const delPiso = cuartos.filter((c) => c.dataset.piso === pisoFiltro).map((c) => c.dataset.num);
+    const todas = delPiso.every((n) => sel.has(n));
+    delPiso.forEach((n) => (todas ? sel.delete(n) : sel.add(n)));
+    pintar();
+  });
+  chips.forEach((b) => b.addEventListener('click', () => {
+    chips.forEach((x) => { x.classList.toggle('activo', x === b); x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    pisoFiltro = b.dataset.piso;
+    cuartos.forEach((c) => c.classList.toggle('apagado', pisoFiltro !== 'todos' && c.dataset.piso !== pisoFiltro));
+    pintar();
+  }));
+  $('r3-in').addEventListener('change', () => { $('r3-out').min = $('r3-in').value || hoy; });
+  f.addEventListener('input', actualizar);
+  f.addEventListener('submit', (e) => e.preventDefault());
+  // Datos en vivo desde Google Sheets: precios y cuartos ocupados
+  const aplicarDatos = ({ precios = {}, estados = {} }) => {
+    Object.entries(precios).forEach(([t, p]) => { if (hab[t]) hab[t].precio = p; });
+    cuartos.forEach((c) => {
+      const ocupado = estados[c.dataset.num] === 'ocupado';
+      c.classList.toggle('ocupado', ocupado);
+      c.setAttribute('aria-disabled', ocupado ? 'true' : 'false');
+      c.setAttribute('tabindex', ocupado ? '-1' : '0');
+      if (ocupado) sel.delete(c.dataset.num);
+      const op = $('r3-sel').querySelector(`option[value="${c.dataset.num}"]`);
+      if (op) { op.disabled = ocupado; op.textContent = op.textContent.replace(' · ocupada', '') + (ocupado ? ' · ocupada' : ''); }
+    });
+    $('r3-ocupados').hidden = !cuartos.some((c) => c.classList.contains('ocupado'));
+    pintar();
+  };
+  document.addEventListener('hostal:datos', (e) => aplicarDatos(e.detail));
+  if (window.__hostalDatos) aplicarDatos(window.__hostalDatos);
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) svg.classList.add('anim');
+  pintar();
+}
+</script>
+
+<style is:global>
+.reservar3d{background:linear-gradient(180deg,var(--bg) 0%,var(--soft) 100%)}
+.r3d{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(20px,4vw,48px);align-items:start;margin-top:28px}
+.r3d-filtros{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:40px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:600 15px var(--text);cursor:pointer}
+.chip.activo{background:var(--sea);border-color:var(--sea);color:#fff}
+.edif{display:block;width:100%;height:auto;max-height:720px;margin:8px auto 0}
+.e-otro{font:700 11px var(--text);fill:#6b604f}
+.e-rot{font:700 13px var(--text);fill:#fff;paint-order:stroke;stroke:#0a5263;stroke-width:4px}
+.e-letrero{font:italic 500 17px var(--display);fill:#fff}
+.cuarto{cursor:pointer;outline:none}
+.c-zona{fill:transparent;stroke:transparent;stroke-width:3;transition:fill .2s,stroke .2s}
+.cuarto:hover .c-zona,.cuarto:focus-visible .c-zona{fill:rgba(8,179,178,.18);stroke:#0a5263}
+.cuarto.sel .c-zona{fill:rgba(209,164,87,.35);stroke:#b9873a}
+.cuarto.sel .c-vidrio{fill:#ffe6a8}
+.cuarto.ocupado{cursor:not-allowed}
+.cuarto.ocupado .c-vidrio{fill:#b8b0a3}
+.cuarto.ocupado .c-zona{fill:rgba(60,60,60,.12)}
+.cuarto.ocupado:hover .c-zona{fill:rgba(60,60,60,.12);stroke:transparent}
+.dot-ocupado{display:inline-block;width:12px;height:12px;border-radius:3px;background:#b8b0a3;margin-right:6px;vertical-align:-1px}
+.cuarto.apagado{opacity:.25;pointer-events:none}
+.c-num{font:800 12px var(--text);fill:#063f4c;pointer-events:none;paint-order:stroke;stroke:#fff;stroke-width:3px}
+.edif.anim .cuarto{animation:luz .5s ease backwards}
+.edif.anim .cuarto:nth-of-type(odd){animation-delay:.15s}
+@keyframes luz{from{opacity:0}to{opacity:1}}
+.ancla{position:absolute;top:0}
+.reservar3d{position:relative}
+.tipos{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.tipos li{background:var(--bg);border:2px solid var(--line);border-left:6px solid var(--c);border-radius:14px;padding:14px 16px;display:grid;gap:6px}
+.tipo-cab{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tipo-cab b{font:700 19px var(--display);color:var(--sea-ink)}
+.tipo-color{width:14px;height:14px;border-radius:4px;background:var(--c)}
+.tipo-cap{margin-left:auto;font-size:14px;color:var(--muted)}
+.tipo-det{font-size:15px;color:var(--muted)}
+.tipo-precio b{font-size:20px}
+.leyenda{list-style:none;display:flex;flex-wrap:wrap;gap:8px 20px;padding:0;margin:12px 0 0;font-size:15px}
+.leyenda span{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:8px;vertical-align:-2px}
+.r3d-panel{background:var(--bg);border:2px solid var(--line);border-radius:20px;padding:clamp(18px,3vw,28px);display:grid;gap:16px;position:sticky;top:90px}
+.r3d-panel label{display:grid;gap:6px;font-weight:600;font-size:15px}
+.r3d-panel input,.r3d-panel select{font:16px var(--text);min-height:48px;padding:0 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+.r3d-panel input:focus,.r3d-panel select:focus{border-color:var(--sea);outline:none}
+.r3-cab{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.r3-h{font-size:24px;color:var(--sea-ink)}
+.r3-link{background:none;border:0;padding:6px 0;min-height:36px;color:var(--sea-ink);font:700 15px var(--text);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.r3-piso-btn{display:block;margin-top:6px}
+.r3-lista{list-style:none;padding:0;margin:0;display:grid;gap:8px;max-height:300px;overflow:auto}
+.r3-lista li{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--soft);border-radius:12px;padding:10px 12px;border-left:4px solid var(--gold)}
+.r3-lista b{color:var(--sea-ink)}
+.r3-lista span{font-size:15px}
+.r3-lista small{display:block;color:var(--muted);font-size:13px}
+.r3-quitar{flex:none;min-height:36px;padding:0 12px;border-radius:999px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:600 14px var(--text);cursor:pointer}
+.r3-quitar:hover{border-color:var(--sea)}
+.r3-resumen{font-weight:700}
+.r3-vacio{background:var(--soft);border-radius:14px;padding:18px;color:var(--muted)}
+.r3-piso{color:var(--muted);font-size:14px;font-weight:600}
+#r3-tit{font-size:26px;color:var(--sea-ink);margin:2px 0 6px}
+.r3-precio b{font-size:22px}
+.r3-form{display:grid;gap:14px}
+.r3-form .fila{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.r3d{grid-template-columns:minmax(0,1fr)}.r3d-panel{position:static}}
+@media (max-width:480px){.r3-form .fila{grid-template-columns:minmax(0,1fr)}}
+</style>

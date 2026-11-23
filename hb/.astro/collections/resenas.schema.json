@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "origen": {
+            "type": "string"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "estrellas": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "texto": {
+            "type": "string",
+            "maxLength": 600
+          },
+          "fuente": {
+            "type": "string",
+            "enum": [
+              "Google",
+              "Booking",
+              "Facebook",
+              "WhatsApp",
+              "Libro de visitas"
+            ]
+          },
+          "viaje": {
+            "type": "string",
+            "enum": [
+              "Familia",
+              "Pareja",
+              "Amigos",
+              "Solo",
+              "Trabajo"
+            ]
+          },
+          "publicada": {
+            "default": true,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "nombre",
+          "fecha",
+          "estrellas",
+          "texto",
+          "fuente"
+        ]
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "origen": {
+            "type": "string"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "estrellas": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "texto": {
+            "type": "string",
+            "maxLength": 600
+          },
+          "fuente": {
+            "type": "string",
+            "enum": [
+              "Google",
+              "Booking",
+              "Facebook",
+              "WhatsApp",
+              "Libro de visitas"
+            ]
+          },
+          "viaje": {
+            "type": "string",
+            "enum": [
+              "Familia",
+              "Pareja",
+              "Amigos",
+              "Solo",
+              "Trabajo"
+            ]
+          },
+          "publicada": {
+            "default": true,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "nombre",
+          "fecha",
+          "estrellas",
+          "texto",
+          "fuente"
+        ]
+      }
+    }
+  ]
+}

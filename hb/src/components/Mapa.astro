@@ -1,0 +1,258 @@
+---
+// Mapa ilustrado e interactivo de la provincia de Barranca.
+import { lugares, categorias } from "../data/lugares";
+import { hostal } from "../data/hostal";
+const H = { x: 312, y: 470 }; // posición del hostal en el mapa (Barranca)
+const iconos: Record<string, string> = {
+  piramide: "M-11 7 H11 V3.5 H8 V0 H5 V-3.5 H2 V-7 H-2 V-3.5 H-5 V0 H-8 V3.5 H-11Z",
+  fortaleza: "M-11 8 V-2 H-8.5 V-5 H-6 V-2 H-2 V-8 H2 V-2 H6 V-5 H8.5 V-2 H11 V8Z M-1.6 8 V3 A1.6 1.6 0 0 1 1.6 3 V8Z",
+  casa: "M-10 8 V-1 L-4 -7 L2 -1 V8Z M2 8 V-4 L6.5 -10 L11 -4 V8Z M-5.5 8 V3 H-2.5 V8Z",
+  monolito: "M-8 8 L-6.5 -9 L-2.5 -10 L-1.5 8Z M2 8 L3 -5 L7 -6.5 L8.5 8Z",
+  plaza: "M-10 8 V-1 L0 -9 L10 -1 V8Z M-2.2 8 V2 A2.2 2.2 0 0 1 2.2 2 V8Z M-7 0 H-4.5 V3 H-7Z M4.5 0 H7 V3 H4.5Z",
+  ola: "M-11 5 C-8 -5 -1 -10 5 -6 C1.5 -6 -1 -3 0 0.5 C2 -2 6 -2 8 1 C9 3 10.5 3.5 11 3.5 V8 H-11Z",
+  pozas: "M-7 1 Q0 -11 7 1Z M-11 4 Q-8 2 -5.5 4 T0 4 T5.5 4 T11 4 V6 Q8 4 5.5 6 T0 6 T-5.5 6 T-11 6Z",
+  cristo: "M-1.6 -6 H1.6 V8 H-1.6Z M-10.5 -4.5 H10.5 V-2 H-10.5Z M0 -10.5 A2.4 2.4 0 1 1 0 -5.7 A2.4 2.4 0 1 1 0 -10.5Z M-4 8 H4 V9.5 H-4Z",
+  barco: "M-10 1.5 H10 L6.5 7 H-6.5Z M-0.8 1.5 V-10 H0.8 V1.5Z M1.5 -9 L8 0 H1.5Z M-1.5 -6 L-6.5 0 H-1.5Z",
+};
+---
+<section id="ruta" class="band mapa-sec">
+  <div class="wrap">
+    <h2>Qué hacer en la provincia de Barranca</h2>
+    <p class="lead">Cinco distritos entre el mar y los valles: Paramonga, Pativilca, Barranca, Supe Puerto y Supe. Toca un lugar del mapa para conocerlo.</p>
+
+    <div class="m-filtros" role="group" aria-label="Filtrar lugares">
+      <button type="button" class="chip activo" data-cat="todos" aria-pressed="true">Todos</button>
+      {Object.entries(categorias).map(([k, c]) => (
+        <button type="button" class="chip" data-cat={k} aria-pressed="false"><span class="m-dot" style={`background:${c.color}`}></span>{c.nombre}</button>
+      ))}
+    </div>
+
+    <div class="m-grid">
+      <div class="m-lienzo">
+        <div class="m-zoom" role="group" aria-label="Zoom del mapa">
+          <button type="button" id="m-mas" aria-label="Acercar">+</button>
+          <button type="button" id="m-menos" aria-label="Alejar">−</button>
+          <button type="button" id="m-reset" aria-label="Ver todo el mapa">⤢</button>
+        </div>
+        <p class="m-tip">Pellizca o usa + para acercar</p>
+        <svg class="mapa" viewBox="0 50 900 810" role="group" aria-label="Mapa ilustrado de la provincia de Barranca">
+          <defs>
+            <linearGradient id="m-mar" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fc7c6"/><stop offset="1" stop-color="#0a6f7d"/></linearGradient>
+            <linearGradient id="m-tierra" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f3dcae"/><stop offset=".6" stop-color="#e8c58c"/><stop offset="1" stop-color="#cfa46c"/></linearGradient>
+            <pattern id="m-olas" width="60" height="30" patternUnits="userSpaceOnUse"><path d="M0 15 q15 -8 30 0 t30 0" fill="none" stroke="#bff0ee" stroke-width="2" opacity=".45"/></pattern>
+          </defs>
+          <!-- tierra y mar -->
+          <rect width="900" height="1000" fill="url(#m-tierra)"/>
+          <path id="costa" d="M0 0 H372 C346 150 300 330 262 420 C236 490 236 560 196 630 C160 690 150 760 116 830 C92 880 70 940 52 1000 H0Z" fill="url(#m-mar)"/>
+          <path d="M0 0 H372 C346 150 300 330 262 420 C236 490 236 560 196 630 C160 690 150 760 116 830 C92 880 70 940 52 1000 H0Z" fill="url(#m-olas)"/>
+          <path d="M372 0 C346 150 300 330 262 420 C236 490 236 560 196 630 C160 690 150 760 116 830 C92 880 70 940 52 1000" fill="none" stroke="#fff7e6" stroke-width="6" opacity=".8"/>
+          <!-- cerros -->
+          {[[760,100],[840,260],[720,450],[860,540],[800,800],[600,820]].map(([x,y]) => (
+            <g transform={`translate(${x} ${y})`}><path d="M-70 30 L-10 -40 L20 -10 L40 -30 L90 30Z" fill="#c4955c"/><path d="M-10 -40 L20 -10 L5 30 L-70 30Z" fill="#d8ad74"/></g>
+          ))}
+          <!-- valles (ríos con campiña) -->
+          <path d="M900 150 C760 160 640 200 520 190 C450 186 400 200 352 212" fill="none" stroke="#9cc27a" stroke-width="44" stroke-linecap="round" opacity=".55"/>
+          <path d="M900 150 C760 160 640 200 520 190 C450 186 400 200 352 212" fill="none" stroke="#2f8fa3" stroke-width="5" stroke-linecap="round"/>
+          <path d="M900 320 C760 300 620 360 480 350 C400 345 340 360 296 372" fill="none" stroke="#9cc27a" stroke-width="54" stroke-linecap="round" opacity=".55"/>
+          <path d="M900 320 C760 300 620 360 480 350 C400 345 340 360 296 372" fill="none" stroke="#2f8fa3" stroke-width="6" stroke-linecap="round"/>
+          <path d="M900 640 C780 700 680 700 600 690 C480 676 380 650 214 632" fill="none" stroke="#9cc27a" stroke-width="44" stroke-linecap="round" opacity=".55"/>
+          <path d="M900 640 C780 700 680 700 600 690 C480 676 380 650 214 632" fill="none" stroke="#2f8fa3" stroke-width="5" stroke-linecap="round"/>
+          <text x="470" y="176" class="m-rio">Río Fortaleza</text>
+          <text x="740" y="300" class="m-rio">Río Pativilca</text>
+          <text x="740" y="668" class="m-rio">Río Supe</text>
+          <!-- Panamericana -->
+          <path d="M440 0 C410 160 372 330 336 430 C310 500 300 580 262 650 C226 716 206 800 168 880 C150 920 136 960 124 1000" fill="none" stroke="#4d453e" stroke-width="16" stroke-linecap="round"/>
+          <path d="M440 0 C410 160 372 330 336 430 C310 500 300 580 262 650 C226 716 206 800 168 880 C150 920 136 960 124 1000" fill="none" stroke="#ffe29a" stroke-width="2.5" stroke-dasharray="12 10"/>
+          <g transform="translate(392 285) rotate(-73)"><text class="m-via">Panamericana Norte</text></g>
+          <!-- océano y ciudades -->
+          <text x="70" y="330" class="m-oceano">Océano Pacífico</text>
+          {[["PARAMONGA",412,188],["PATIVILCA",410,376],["BARRANCA",350,520],["SUPE PUERTO",214,760],["SUPE",318,690]].map(([t,x,y]) => (
+            <text x={x} y={y} class="m-ciudad">{t}</text>
+          ))}
+          <!-- hostal -->
+          <g class="m-hostal" transform={`translate(${H.x} ${H.y})`}><g class="m-in">
+            <circle r="26" fill="#d1a457" opacity=".25"><animate attributeName="r" values="18;30;18" dur="3s" repeatCount="indefinite"/></circle>
+            <circle r="15" fill="#fff" stroke="#d1a457" stroke-width="3"/>
+            <image href="/img/isotipo-anita.svg" x="-12" y="-9" width="24" height="18"/>
+            <text x="20" y="5" class="m-hostal-txt">{hostal.nombre}</text>
+          </g></g>
+          <!-- lugares -->
+          {lugares.map((l) => (
+            <g class="m-pin" tabindex="0" role="button" data-id={l.id} data-cat={l.cat} transform={`translate(${l.x} ${l.y})`} aria-label={`${l.nombre}, ${l.distrito}`} aria-pressed="false">
+              <title>{l.nombre}</title>
+              <g class="m-in">
+                <ellipse cx="0" cy="2" rx="9" ry="3.5" fill="#000" opacity=".22"/>
+                <path d="M-6 -14 L0 0 L6 -14Z" fill={categorias[l.cat].color}/>
+                <circle class="m-badge" cy="-30" r="19" fill="#fffaf0" stroke={categorias[l.cat].color} stroke-width="4"/>
+                <path transform="translate(0 -30)" d={iconos[l.icono]} fill={categorias[l.cat].color} fill-rule="evenodd"/>
+                <text x={l.lado === "i" ? -25 : 25} y="-25" text-anchor={l.lado === "i" ? "end" : "start"} class="m-nom">{l.nombre}</text>
+              </g>
+            </g>
+          ))}
+        </svg>
+      </div>
+
+      <aside class="m-ficha" aria-live="polite">
+        <div id="m-vacio">
+          <h3>Elige un lugar</h3>
+          <p>Toca cualquier pin del mapa o un nombre de la lista. Te contamos qué es y cómo llegar desde {hostal.nombre}.</p>
+        </div>
+        <div id="m-info" hidden>
+          <button type="button" id="m-cerrar" class="m-cerrar" aria-label="Cerrar ficha">×</button>
+          <p class="m-meta"><span id="m-cat"></span> <span id="m-dist"></span></p>
+          <h3 id="m-tit"></h3>
+          <p id="m-txt"></p>
+          <p class="m-km" id="m-km" hidden></p>
+          <div class="m-acciones">
+            <a id="m-maps" class="btn btn-sun" href="#">Cómo llegar</a>
+            <a id="m-blog" class="btn btn-borde" href="#" hidden>Leer la guía</a>
+          </div>
+        </div>
+        <ul class="m-lista">
+          {lugares.map((l) => (
+            <li data-cat={l.cat}><button type="button" data-id={l.id}><span class="m-dot" style={`background:${categorias[l.cat].color}`}></span>{l.nombre}<small>{l.distrito}</small></button></li>
+          ))}
+        </ul>
+      </aside>
+    </div>
+    <p class="nota">Mapa ilustrado y referencial, no a escala. Los kilómetros son de la Panamericana Norte; confirma horarios antes de ir.</p>
+  </div>
+</section>
+
+<script is:inline define:vars={{ lugares, categorias }}>
+{
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('.m-hostal animate').forEach((a) => a.remove());
+  const pins = [...document.querySelectorAll('.m-pin')];
+  const items = [...document.querySelectorAll('.m-lista li')];
+  const chips = [...document.querySelectorAll('.m-filtros .chip')];
+  const $ = (id) => document.getElementById(id);
+  const elegir = (id) => {
+    const l = lugares.find((x) => x.id === id); if (!l) return;
+    pins.forEach((p) => { const on = p.dataset.id === id; p.classList.toggle('sel', on); p.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    items.forEach((i) => i.classList.toggle('sel', i.querySelector('button').dataset.id === id));
+    const sel = pins.find((p) => p.dataset.id === id); if (sel) sel.parentNode.appendChild(sel);
+    $('m-vacio').hidden = true; $('m-info').hidden = false;
+    if (matchMedia('(max-width: 900px)').matches) {
+      // en celular: acerca el mapa al lugar elegido y lo muestra
+      const w = base.w / 2.4; vb.w = w; vb.x = l.x - w / 2; vb.y = l.y - (w * base.h / base.w) * 0.45; aplicar();
+      document.querySelector('.m-lienzo').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }
+    $('m-cat').textContent = categorias[l.cat].nombre; $('m-cat').style.background = categorias[l.cat].color;
+    $('m-dist').textContent = l.distrito;
+    $('m-tit').textContent = l.nombre; $('m-txt').textContent = l.texto;
+    $('m-km').hidden = !l.km; if (l.km) $('m-km').textContent = `Panamericana Norte, km ${l.km}`;
+    $('m-maps').href = l.maps;
+    $('m-blog').hidden = !l.blog; if (l.blog) $('m-blog').href = `/blog/${l.blog}/`;
+  };
+  // ---- zoom, arrastre y tamaño constante de íconos ----
+  const svg = document.querySelector('.mapa');
+  const base = { x: 0, y: 50, w: 900, h: 810 };
+  const vb = { ...base };
+  const inners = [...svg.querySelectorAll('.m-in')];
+  const aplicar = () => {
+    vb.w = Math.min(base.w, Math.max(base.w / 5, vb.w)); vb.h = vb.w * base.h / base.w;
+    vb.x = Math.min(base.x + base.w - vb.w, Math.max(base.x, vb.x));
+    vb.y = Math.min(base.y + base.h - vb.h, Math.max(base.y, vb.y));
+    svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+    const escala = svg.clientWidth / vb.w;            // px de pantalla por unidad del mapa
+    const k = Math.min(1.3, Math.max(0.3, 15 / (19 * escala)));
+    inners.forEach((g) => g.setAttribute('transform', `scale(${k.toFixed(3)})`));
+    svg.classList.toggle('sin-nombres', escala < 0.62);
+    svg.classList.toggle('con-zoom', vb.w < base.w - 1);
+  };
+  const zoom = (f, cx = vb.x + vb.w / 2, cy = vb.y + vb.h / 2) => {
+    const nw = Math.min(base.w, Math.max(base.w / 5, vb.w / f));
+    const r = nw / vb.w;
+    vb.x = cx - (cx - vb.x) * r; vb.y = cy - (cy - vb.y) * r; vb.w = nw; aplicar();
+  };
+  const aMapa = (px, py) => { const b = svg.getBoundingClientRect(); return [vb.x + (px - b.left) * vb.w / b.width, vb.y + (py - b.top) * vb.h / b.height]; };
+  $('m-mas').addEventListener('click', () => (vb.w >= base.w - 1 ? zoom(1.6, 312, 470) : zoom(1.6)));
+  $('m-menos').addEventListener('click', () => zoom(1 / 1.6));
+  $('m-reset').addEventListener('click', () => { Object.assign(vb, base); aplicar(); });
+  const ptrs = new Map(); let movio = false, ini = null;
+  svg.addEventListener('pointerdown', (e) => { ptrs.set(e.pointerId, [e.clientX, e.clientY]); movio = false; ini = { vb: { ...vb }, pts: [...ptrs.values()].map((p) => [...p]) }; });
+  svg.addEventListener('pointermove', (e) => {
+    if (!ptrs.has(e.pointerId)) return;
+    ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+    const pts = [...ptrs.values()], b = svg.getBoundingClientRect();
+    if (pts.length === 2 && ini.pts.length === 2) {
+      const d0 = Math.hypot(ini.pts[0][0] - ini.pts[1][0], ini.pts[0][1] - ini.pts[1][1]);
+      const d1 = Math.hypot(pts[0][0] - pts[1][0], pts[0][1] - pts[1][1]);
+      if (d0 > 0) { Object.assign(vb, ini.vb); const [cx, cy] = aMapa((pts[0][0] + pts[1][0]) / 2, (pts[0][1] + pts[1][1]) / 2); zoom(d1 / d0, cx, cy); movio = true; }
+    } else if (pts.length === 1 && vb.w < base.w - 1) {
+      const dx = pts[0][0] - ini.pts[0][0], dy = pts[0][1] - ini.pts[0][1];
+      if (Math.abs(dx) + Math.abs(dy) > 6) movio = true;
+      vb.x = ini.vb.x - dx * vb.w / b.width; vb.y = ini.vb.y - dy * vb.h / b.height; aplicar();
+    }
+  });
+  const soltar = (e) => { ptrs.delete(e.pointerId); ini = { vb: { ...vb }, pts: [...ptrs.values()].map((p) => [...p]) }; };
+  svg.addEventListener('pointerup', soltar); svg.addEventListener('pointercancel', soltar);
+  svg.addEventListener('click', (e) => { if (movio) { e.stopPropagation(); e.preventDefault(); movio = false; } }, true);
+  svg.addEventListener('wheel', (e) => { if (!e.ctrlKey) return; e.preventDefault(); const [cx, cy] = aMapa(e.clientX, e.clientY); zoom(e.deltaY < 0 ? 1.2 : 1 / 1.2, cx, cy); }, { passive: false });
+  new ResizeObserver(aplicar).observe(svg);
+  aplicar();
+  $('m-cerrar').addEventListener('click', () => { $('m-info').hidden = true; $('m-vacio').hidden = false; pins.forEach((p) => { p.classList.remove('sel'); p.setAttribute('aria-pressed', 'false'); }); items.forEach((i) => i.classList.remove('sel')); });
+
+  pins.forEach((p) => {
+    p.addEventListener('click', () => elegir(p.dataset.id));
+    p.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); elegir(p.dataset.id); } });
+  });
+  items.forEach((i) => i.querySelector('button').addEventListener('click', (e) => elegir(e.currentTarget.dataset.id)));
+  chips.forEach((b) => b.addEventListener('click', () => {
+    chips.forEach((x) => { x.classList.toggle('activo', x === b); x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    const c = b.dataset.cat;
+    pins.forEach((p) => p.classList.toggle('oculto', c !== 'todos' && p.dataset.cat !== c));
+    items.forEach((i) => (i.hidden = c !== 'todos' && i.dataset.cat !== c));
+  }));
+}
+</script>
+
+<style is:global>
+.mapa-sec{background:var(--soft)}
+.m-filtros{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.m-dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+.m-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(18px,3vw,36px);align-items:start;margin-top:18px}
+.m-lienzo{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 10px 30px rgba(6,63,76,.18);background:#e8c58c}
+.mapa{display:block;width:100%;height:auto;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.mapa.con-zoom{touch-action:none;cursor:grab}
+.m-lienzo:has(.con-zoom) .m-tip{display:none}
+.mapa.sin-nombres .m-pin:not(.sel) .m-nom{display:none}
+.mapa > path,.mapa > g:not(.m-pin),.mapa > text,.mapa > rect{pointer-events:none}
+.m-rio{font:italic 600 18px var(--script);fill:#1f6f80}
+.m-via{font:700 13px var(--text);fill:#4d453e;letter-spacing:.06em}
+.m-oceano{font:italic 500 30px var(--display);fill:#e6fbfa;opacity:.85}
+.m-ciudad{font:800 15px var(--text);fill:#5a4630;letter-spacing:.16em;opacity:.75}
+.m-hostal-txt{font:italic 700 17px var(--display);fill:#063f4c;paint-order:stroke;stroke:#fff6e3;stroke-width:5px}
+.m-pin{cursor:pointer;outline:none;transition:opacity .2s}
+.m-pin:hover .m-badge,.m-pin:focus-visible .m-badge{stroke-width:6}
+.m-pin.sel .m-badge{fill:#ffe6a8;stroke-width:6}
+.m-pin:focus-visible .m-badge{stroke:#063f4c}
+.m-nom{font:700 14px var(--text);fill:#10262c;paint-order:stroke;stroke:#fff6e3;stroke-width:4.5px}
+.m-pin.sel .m-nom{fill:#063f4c;font-size:15px}
+.m-pin.oculto{opacity:.12;pointer-events:none}
+.m-ficha{background:var(--bg);border:2px solid var(--line);border-radius:20px;padding:clamp(18px,2.6vw,26px);display:grid;gap:14px;position:sticky;top:90px}
+.m-ficha h3{font-size:26px;color:var(--sea-ink)}
+.m-ficha p{color:var(--ink)}
+.m-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+#m-cat{color:#fff;font-weight:700;padding:3px 10px;border-radius:999px;font-size:13px}
+.m-km{font-weight:700;color:var(--muted)!important;font-size:15px}
+.m-acciones{display:flex;flex-wrap:wrap;gap:10px}
+.m-lista{list-style:none;padding:0;margin:4px 0 0;display:grid;gap:4px;max-height:320px;overflow:auto;border-top:2px solid var(--line);padding-top:10px}
+.m-lista button{width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:8px 10px;min-height:44px;font:600 15px var(--text);color:var(--ink);cursor:pointer;display:flex;align-items:center;flex-wrap:wrap}
+.m-lista button small{margin-left:auto;color:var(--muted);font-weight:400;font-size:13px}
+.m-lista button:hover,.m-lista li.sel button{background:var(--soft)}
+.m-zoom{position:absolute;right:12px;top:12px;z-index:2;display:grid;gap:6px}
+.m-zoom button{width:44px;height:44px;border-radius:12px;border:0;background:#fffaf0;color:#063f4c;font:700 22px var(--text);box-shadow:0 3px 10px rgba(6,63,76,.25);cursor:pointer}
+.m-zoom button:hover{background:#fff}
+.m-tip{display:none;position:absolute;left:12px;bottom:12px;z-index:2;margin:0;background:rgba(6,63,76,.85);color:#fff;font-size:13px;padding:6px 12px;border-radius:999px;pointer-events:none}
+.m-cerrar{display:none}
+@media (max-width:900px){
+  .m-grid{grid-template-columns:minmax(0,1fr)}
+  .m-ficha{position:static}
+  .m-tip{display:block}
+  #m-info:not([hidden]){position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;gap:10px;background:var(--bg);border-radius:22px 22px 0 0;padding:26px 20px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -10px 30px rgba(6,63,76,.3);max-height:70vh;overflow:auto;animation:subir .25s ease}
+  #m-info::before{content:"";position:absolute;top:9px;left:50%;width:44px;height:5px;margin-left:-22px;border-radius:3px;background:var(--line)}
+  .m-cerrar{display:grid;place-items:center;position:absolute;top:10px;right:12px;width:40px;height:40px;border-radius:50%;border:0;background:var(--soft);color:var(--ink);font:700 24px var(--text);cursor:pointer}
+}
+@keyframes subir{from{transform:translateY(100%)}to{transform:none}}
+</style>

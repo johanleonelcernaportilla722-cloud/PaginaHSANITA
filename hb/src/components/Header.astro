@@ -1,0 +1,30 @@
+---
+---
+  <header class="top">
+    <div class="wrap top-in">
+      <a href="/" class="marca"><img src="/img/isotipo-anita.svg" alt="" width="58" height="42" /><span><small>Hostal</small>Anita</span></a>
+      <nav aria-label="Secciones">
+        <a href="/#ruta">Qué visitar</a>
+        <a href="/#habitaciones">Habitaciones</a>
+        <a href="/#llegar">Cómo llegar</a>
+        <a href="/resenas/">Reseñas</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#habitaciones" class="nav-cta">Reservar</a>
+      </nav>
+    </div>
+  </header>
+
+<style is:global>
+.top{position:sticky;top:0;z-index:20;background:#fff;color:var(--sea);box-shadow:0 1px 0 #d3e2e0}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px max(5vw,16px);flex-wrap:wrap}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--sea)}
+.marca img{display:block;height:42px;width:auto}
+.marca span{font:italic 500 26px/0.95 var(--display);display:flex;flex-direction:column}
+.marca small{font:500 11px/1 var(--script);letter-spacing:.32em;font-style:normal;margin-bottom:3px}
+.top nav{display:flex;gap:6px 18px;flex-wrap:wrap;align-items:center}
+.top nav a{text-decoration:none;font-weight:600;font-size:15px;padding:8px 2px}
+.top nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.top .nav-cta{background:var(--sea);color:#fff;padding:8px 16px;border-radius:999px}
+.top .nav-cta:hover{text-decoration:none;background:var(--sea-deep)}
+@media (max-width:600px){.top nav a:not(.nav-cta){display:none}}
+</style>

@@ -1,0 +1,111 @@
+---
+import { render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Portada from "../../components/Portada.astro";
+import TarjetaPost from "../../components/TarjetaPost.astro";
+import { posts, temas, fecha, minutos } from "../../utils/blog";
+import { hostal } from "../../data/hostal";
+
+export async function getStaticPaths() {
+  const lista = await posts();
+  return lista.map((post) => ({ params: { slug: post.id }, props: { post, lista } }));
+}
+const { post, lista } = Astro.props;
+const { Content, headings } = await render(post);
+const relacionados = lista.filter((p) => p.id !== post.id).slice(0, 3);
+const url = new URL(`/blog/${post.id}/`, Astro.site).toString();
+const wa = `https://wa.me/${hostal.whatsapp}?text=${encodeURIComponent(`Hola, leí "${post.data.title}" y quiero reservar en ${hostal.nombre}.`)}`;
+const jsonld = [
+  {
+    "@context": "https://schema.org", "@type": "BlogPosting",
+    headline: post.data.title, description: post.data.description,
+    datePublished: post.data.pubDate.toISOString(),
+    dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+    inLanguage: "es-PE", mainEntityOfPage: url, keywords: post.data.tags.join(", "),
+    author: { "@type": "Organization", name: hostal.nombre },
+    publisher: { "@type": "Organization", name: hostal.nombre, logo: { "@type": "ImageObject", url: new URL("/img/logo-hostal-anita.png", Astro.site).toString() } },
+  },
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: new URL("/", Astro.site).toString() },
+      { "@type": "ListItem", position: 2, name: "Blog", item: new URL("/blog/", Astro.site).toString() },
+      { "@type": "ListItem", position: 3, name: post.data.title, item: url },
+    ],
+  },
+];
+---
+<Base title={`${post.data.title} | ${hostal.nombre}`} description={post.data.description} type="article" jsonld={jsonld}>
+  <Header />
+  <main>
+    <article>
+      <header class="band post-cab">
+        <div class="wrap angosto">
+          <nav class="migas" aria-label="Ruta de navegación"><a href="/">Inicio</a> / <a href="/blog/">Blog</a> / {temas[post.data.tema]}</nav>
+          <h1>{post.data.title}</h1>
+          <p class="lead">{post.data.description}</p>
+          <p class="post-meta">Por {hostal.nombre}, <time datetime={post.data.pubDate.toISOString()}>{fecha(post.data.pubDate)}</time>. {minutos(post.body)} min de lectura.</p>
+        </div>
+      </header>
+      <div class="wrap angosto portada-post"><Portada tema={post.data.tema} alto={300} /></div>
+      <div class="band wrap angosto post-cuerpo">
+        {headings.filter((h) => h.depth === 2).length > 2 && (
+          <nav class="indice" aria-label="Contenido del artículo">
+            <p>En este artículo</p>
+            <ol>{headings.filter((h) => h.depth === 2).map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+          </nav>
+        )}
+        <div class="prosa"><Content /></div>
+        <aside class="cta-post">
+          <img src="/img/isotipo-anita.svg" alt="" width="84" height="60" />
+          <div>
+            <h2>¿Vienes a Barranca?</h2>
+            <p>Quédate en {hostal.nombre}, {hostal.lema.charAt(0).toLowerCase() + hostal.lema.slice(1)}. Te ayudamos a armar tu ruta.</p>
+          </div>
+          <a class="btn btn-sun" href={wa}>Reservar por WhatsApp</a>
+        </aside>
+      </div>
+    </article>
+    {relacionados.length > 0 && (
+      <section class="band suave-blog">
+        <div class="wrap">
+          <h2>Sigue leyendo</h2>
+          <div class="tposts">{relacionados.map((p) => <TarjetaPost post={p} />)}</div>
+        </div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</Base>
+<style>
+.angosto{max-width:780px;margin:0 auto}
+.post-cab{padding-bottom:28px}
+.post-cab h1{font-size:clamp(32px,5vw,50px);color:var(--sea-ink)}
+.post-meta{font-size:15px;color:var(--muted);margin-top:14px}
+.portada-post{padding:0 max(5vw,16px)}
+.portada-post :global(svg){border-radius:18px}
+.post-cuerpo{padding-top:36px}
+.indice{background:var(--soft);border-radius:14px;padding:18px 22px;margin-bottom:32px}
+.indice p{font-weight:800;margin-bottom:6px}
+.indice ol{margin:0;padding-left:20px}
+.indice a{color:var(--sea-ink)}
+.prosa{font-size:18px;line-height:1.75}
+.prosa :global(h2){font-size:30px;color:var(--sea-ink);margin:44px 0 12px}
+.prosa :global(h3){font-size:22px;margin:28px 0 8px}
+.prosa :global(p){margin:0 0 18px}
+.prosa :global(ul),.prosa :global(ol){margin:0 0 18px;padding-left:24px}
+.prosa :global(li){margin-bottom:6px}
+.prosa :global(a){color:var(--sea-ink);text-underline-offset:3px}
+.prosa :global(blockquote){margin:24px 0;padding:14px 20px;border-left:4px solid var(--gold);background:var(--soft);border-radius:0 12px 12px 0}
+.prosa :global(table){width:100%;border-collapse:collapse;margin:0 0 22px;font-size:16px}
+.prosa :global(th),.prosa :global(td){text-align:left;padding:10px;border-bottom:1px solid var(--line)}
+.prosa :global(th){background:var(--soft)}
+.cta-post{margin-top:40px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center;background:var(--sea);color:#fff;border-radius:18px;padding:24px}
+.cta-post h2{font-size:26px}
+.cta-post p{color:#dcefee;margin-top:4px}
+.cta-post img{background:#fff;border-radius:12px;padding:8px;width:84px;height:auto}
+.suave-blog{background:var(--soft)}
+@media (max-width:700px){.cta-post{grid-template-columns:minmax(0,1fr)}.prosa :global(table){display:block;overflow-x:auto}}
+</style>

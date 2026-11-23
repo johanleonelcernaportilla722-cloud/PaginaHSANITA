@@ -1,0 +1,126 @@
+---
+import { hostal } from "../data/hostal";
+const {
+  title = `${hostal.nombre} · Tu refugio en Barranca, Norte Chico`,
+  description = "Hostal Anita en Barranca: alojamiento seguro para recorrer Caral, Áspero, Paramonga, la Albufera de Medio Mundo y las playas del Norte Chico. Reserva por WhatsApp.",
+  type = "website",
+  image = "/img/logo-hostal-anita.png",
+  jsonld,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+const negocio = {
+  "@context": "https://schema.org",
+  "@type": "Hostel",
+  name: hostal.nombre,
+  slogan: hostal.lema,
+  url: Astro.site?.toString(),
+  logo: new URL("/img/logo-hostal-anita.png", Astro.site).toString(),
+  address: { "@type": "PostalAddress", streetAddress: hostal.direccion, addressLocality: "Barranca", addressRegion: "Lima", addressCountry: "PE" },
+  telephone: hostal.telefonoVisible,
+  email: hostal.email,
+  checkinTime: hostal.checkIn,
+  checkoutTime: hostal.checkOut,
+};
+---
+<!DOCTYPE html>
+<html lang="es-PE">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#0a5263" />
+  <link rel="icon" type="image/svg+xml" href="/img/isotipo-anita.svg" />
+  <meta property="og:image" content={ogImage} />
+  <link rel="canonical" href={canonical} />
+  <link rel="alternate" type="application/rss+xml" title={`Blog de ${hostal.nombre}`} href="/rss.xml" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <meta property="og:type" content={type} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content={hostal.nombre} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:locale" content="es_PE" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Overpass:wght@400;600;800&display=swap" rel="stylesheet" />
+  <script type="application/ld+json" set:html={JSON.stringify(negocio)} />
+  {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
+</head>
+<body>
+  <slot />
+  <script is:inline define:vars={{ url: hostal.hojaDatos }}>
+  {
+    // Lee precios y cuartos ocupados desde Google Sheets (si hay hoja configurada)
+    if (url) {
+      fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now())
+        .then((r) => (r.ok ? r.text() : Promise.reject(r.status)))
+        .then((csv) => {
+          const precios = {}, estados = {};
+          csv.split(/\r?\n/).slice(1).forEach((linea) => {
+            const [clave, valor] = linea.split(',').map((x) => (x || '').trim().replace(/^"|"$/g, ''));
+            if (!clave || !valor) return;
+            const n = Number(valor.replace(/[^0-9.]/g, ''));
+            if (/^(ocupad[oa]|libre|disponible)$/i.test(valor)) estados[clave] = /^ocupad/i.test(valor) ? 'ocupado' : 'libre';
+            else if (n > 0) precios[clave.toLowerCase()] = n;
+          });
+          document.querySelectorAll('[data-precio]').forEach((el) => {
+            const p = precios[el.dataset.precio];
+            if (p) el.textContent = p;
+          });
+          window.__hostalDatos = { precios, estados };
+          document.dispatchEvent(new CustomEvent('hostal:datos', { detail: window.__hostalDatos }));
+        })
+        .catch(() => {});
+    }
+  }
+  </script>
+</body>
+</html>
+
+<style is:global>
+/*
+VOICE: cálido, directo, de anfitrión que conoce la zona.
+IDEA: la Panamericana Norte como guía: cada atractivo es un hito de kilómetro, y el hostal está en el km 190.
+PICTURE: escena costera al atardecer: mar, dunas, la pirámide escalonada de Caral y el hostal con luces encendidas junto a la carretera.
+COLOUR and TYPE: petróleo del logo #0A5263 dominante, arena #EBCB98 de apoyo, dorado de la golondrina #E4B866 como acento; Playfair Display y Cormorant Garamond, las letras del logo, para títulos, Overpass (letra de señal vial) para texto y kilómetros.
+LAYOUT: escena a todo el ancho con el título en el cielo; regla de kilómetros; habitaciones; reserva en una columna; preguntas y pie.
+*/
+:root{
+  color-scheme:light dark;
+  --bg:light-dark(#ffffff,#0a1c22);
+  --soft:light-dark(#eef5f4,#0f272e);
+  --ink:light-dark(#10262c,#e8f1f0);
+  --muted:light-dark(#46636a,#9fb8bb);
+  --line:light-dark(#d3e2e0,#20404a);
+  --sea:#0a5263; --sea-deep:#063f4c; --aqua:#08b3b2; --gold:#d1a457;
+  --sand:#ebcb98; --sun:#e4b866;
+  --focus:light-dark(#0e5361,#ffc23d);
+  --sea-ink:light-dark(#0a5263,#7fd6d3);
+  --display:"Playfair Display",Georgia,serif;
+  --script:"Cormorant Garamond",Georgia,serif;
+  --text:"Overpass",system-ui,sans-serif;
+}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--text);overflow-x:clip}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.08;text-wrap:balance;margin:0}
+h2{font-size:clamp(30px,4.2vw,46px)}
+h3{font-size:22px;font-weight:500}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(48px,7vw,96px) max(5vw,16px)}
+.lead{font-size:19px;color:var(--muted);max-width:62ch;margin-top:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 24px;border-radius:999px;font:800 16px/1 var(--text);text-decoration:none;border:0;cursor:pointer}
+.btn-sun{background:var(--sun);color:#10262c}
+.btn-sun:hover{background:#efc97f}
+.btn-ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
+.btn-ghost:hover{box-shadow:inset 0 0 0 2px #fff}
+.km{font-family:var(--text);font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+</style>

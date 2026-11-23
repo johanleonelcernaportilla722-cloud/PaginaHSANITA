@@ -1,0 +1,25 @@
+---
+import Portada from "./Portada.astro";
+import { temas, fecha, minutos } from "../utils/blog";
+const { post } = Astro.props;
+---
+<article class="tpost">
+  <a href={`/blog/${post.id}/`} class="tpost-link">
+    <Portada tema={post.data.tema} alto={180} />
+    <div class="tpost-in">
+      <p class="tpost-meta">{temas[post.data.tema]}, {minutos(post.body)} min de lectura</p>
+      <h3>{post.data.title}</h3>
+      <p>{post.data.description}</p>
+      <p class="tpost-fecha"><time datetime={post.data.pubDate.toISOString()}>{fecha(post.data.pubDate)}</time></p>
+    </div>
+  </a>
+</article>
+<style is:global>
+.tposts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:22px;margin-top:32px}
+.tpost{border:2px solid var(--line);border-radius:18px;overflow:hidden;background:var(--bg)}
+.tpost:hover{border-color:var(--sea)}
+.tpost-link{display:block;text-decoration:none;color:inherit;height:100%}
+.tpost-in{padding:18px 20px 22px;display:grid;gap:8px}
+.tpost h3{font-size:22px;line-height:1.2}
+.tpost-meta,.tpost-fecha{font-size:14px;color:var(--muted)}
+</style>

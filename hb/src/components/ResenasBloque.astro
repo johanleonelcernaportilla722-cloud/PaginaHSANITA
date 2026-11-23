@@ -1,0 +1,43 @@
+---
+// Bloque de reseñas para la página principal y la página /resenas/
+import Estrellas from "./Estrellas.astro";
+import TarjetaResena from "./TarjetaResena.astro";
+import { resenas, resumen } from "../utils/resenas";
+import { hostal } from "../data/hostal";
+const { limite, titulo = "Lo que dicen nuestros huéspedes", nivel = "h2" } = Astro.props;
+const todas = await resenas();
+const lista = limite ? todas.slice(0, limite) : todas;
+const { total, promedio } = resumen(todas);
+const waOpinion = `https://wa.me/${hostal.whatsapp}?text=${encodeURIComponent(`Hola, me hospedé en ${hostal.nombre} y quiero dejar mi opinión: `)}`;
+const H = nivel;
+---
+<div class="resenas-cab">
+  <div>
+    <H class="resenas-tit">{titulo}</H>
+    {total > 0 ? (
+      <p class="resenas-prom"><b class="km">{promedio.toFixed(1)}</b> <Estrellas valor={promedio} tam={22} /> <span>{total} reseña{total > 1 ? "s" : ""} de huéspedes reales</span></p>
+    ) : (
+      <p class="lead">Aún estamos reuniendo las opiniones de quienes ya se hospedaron con nosotros. Si fuiste nuestro huésped, cuéntanos cómo te fue.</p>
+    )}
+  </div>
+  <div class="resenas-cta">
+    <a class="btn btn-sun" href={hostal.resenaGoogle}>Escribir reseña en Google</a>
+    <a class="btn btn-borde" href={waOpinion}>Contar mi experiencia por WhatsApp</a>
+  </div>
+</div>
+{lista.length > 0 && (
+  <div class="resenas-grid">{lista.map((r) => <TarjetaResena r={r} />)}</div>
+)}
+{limite && total > limite && (
+  <p style="margin-top:22px"><a class="enlace-mas" href="/resenas/">Ver las {total} reseñas</a></p>
+)}
+<style is:global>
+.resenas-cab{display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:space-between;align-items:flex-end}
+.resenas-tit{font-size:clamp(30px,4.2vw,46px)}
+.resenas-prom{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px;color:var(--muted)}
+.resenas-prom b{font-size:34px;color:var(--ink)}
+.resenas-cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn-borde{background:transparent;color:var(--sea-ink);box-shadow:inset 0 0 0 2px var(--sea)}
+.btn-borde:hover{background:var(--soft)}
+.enlace-mas{color:var(--sea-ink);font-weight:800}
+</style>

@@ -1,0 +1,210 @@
+---
+import Base from "../layouts/Base.astro";
+import Escena from "../components/Escena.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import TarjetaPost from "../components/TarjetaPost.astro";
+import ResenasBloque from "../components/ResenasBloque.astro";
+import Edificio from "../components/Edificio.astro";
+import Mapa from "../components/Mapa.astro";
+import Agenda from "../components/Agenda.astro";
+import { posts } from "../utils/blog";
+const ultimos = (await posts()).slice(0, 3);
+import { hostal, habitaciones, tranquilidad, ruta, comida, faq } from "../data/hostal";
+
+const wa = (msg: string) => `https://wa.me/${hostal.whatsapp}?text=${encodeURIComponent(msg)}`;
+const kmMin = 140, kmMax = 210;
+const pos = (km: number) => ((km - kmMin) / (kmMax - kmMin)) * 100;
+const ticks = Array.from({ length: (kmMax - kmMin) / 10 + 1 }, (_, i) => kmMin + i * 10);
+const year = new Date().getFullYear();
+---
+<Base>
+  <Header />
+
+  <main>
+    <section id="inicio" class="hero">
+      <Escena />
+      <div class="hero-in wrap">
+        <div class="hero-txt">
+          <p class="hero-marca">{hostal.nombre}, {hostal.lema.charAt(0).toLowerCase() + hostal.lema.slice(1)}</p>
+          <h1>Barranca, a 190 km de Lima. Caral, el mar y Paramonga, a la vuelta.</h1>
+          <p>Duerme tranquilo con nosotros y recorre el Norte Chico de día: la ciudad más antigua de América, playas de pozas naturales y atardeceres frente al Cristo del Cerro Colorado.</p>
+          <div class="hero-cta">
+            <a class="btn btn-sun" href={wa(`Hola, quiero reservar en ${hostal.nombre}.`)}>Reservar por WhatsApp</a>
+            <a class="btn btn-ghost" href="#ruta">Ver qué visitar</a>
+          </div>
+        </div>
+        <figure class="postal">
+          <picture>
+            <source type="image/webp" srcset="/img/fachada-hostal-anita-420.webp 420w, /img/fachada-hostal-anita.webp 760w" sizes="(max-width: 900px) 52vw, 330px" />
+            <img src="/img/fachada-hostal-anita.jpg" width="760" height="1270" alt={`Fachada de ${hostal.nombre} en Barranca, con su letrero vertical`} fetchpriority="high" decoding="async" />
+          </picture>
+          <figcaption>Así nos reconoces en Barranca</figcaption>
+          <span class="sello" aria-hidden="true"><img src="/img/isotipo-anita.svg" alt="" width="54" height="40" /></span>
+        </figure>
+      </div>
+    </section>
+
+    <Mapa />
+
+    <Agenda />
+
+    <section class="band arena">
+      <div class="wrap dos">
+        <div>
+          <h2>Después del paseo, llegas a un lugar seguro</h2>
+          <p class="lead">Caral te pide madrugar y la playa te deja cansado. Aquí te esperamos con una cama limpia, agua caliente y alguien que conoce la zona.</p>
+        </div>
+        <ul class="tranq">
+          {tranquilidad.map((x) => (
+            <li><h3>{x.t}</h3><p>{x.d}</p></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+
+    <section id="resenas" class="band suave">
+      <div class="wrap"><ResenasBloque limite={3} /></div>
+    </section>
+
+    <section class="band mar">
+      <div class="wrap dos">
+        <div>
+          <h2>Qué comer en el Norte Chico</h2>
+          <p class="lead">El mar y el valle se juntan en la mesa. Pregúntanos dónde comer cada plato.</p>
+        </div>
+        <ul class="platos">
+          {comida.map((c) => (<li><h3>{c.n}</h3><p>{c.d}</p></li>))}
+        </ul>
+      </div>
+    </section>
+
+    <section id="blog" class="band suave">
+      <div class="wrap">
+        <div class="blog-cab">
+          <div>
+            <h2>Guías para tu viaje</h2>
+            <p class="lead">Lo que necesitas saber antes de venir a Barranca, escrito por quienes vivimos aquí.</p>
+          </div>
+          <a class="btn btn-sun" href="/blog/">Ver todas las guías</a>
+        </div>
+        <div class="tposts">{ultimos.map((post) => <TarjetaPost post={post} />)}</div>
+      </div>
+    </section>
+
+    <Edificio />
+
+    <section id="llegar" class="band suave">
+      <div class="wrap dos">
+        <div>
+          <h2>Cómo llegar y preguntas frecuentes</h2>
+          <p class="lead">{hostal.direccion}</p>
+          <p style="margin-top:18px"><a class="btn btn-sun" href={hostal.mapsUrl}>Abrir en Google Maps</a></p>
+        </div>
+        <div class="faq">
+          {faq.map((f) => (<details><summary>{f.q}</summary><p>{f.a}</p></details>))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+</Base>
+
+<style>
+
+.hero{position:relative;min-height:min(94vh,860px);color:#fff;overflow:hidden;background:#0d3e57;display:flex;align-items:center}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(95deg,rgba(8,40,56,.72) 0%,rgba(8,40,56,.42) 34%,rgba(8,40,56,0) 52%)}
+.hero-in{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:minmax(0,540px) minmax(0,1fr) minmax(0,300px);align-items:center;gap:24px;padding:clamp(40px,7vh,90px) max(5vw,16px)}
+.hero-txt{grid-column:1}
+.hero-marca{font:italic 500 23px/1.2 var(--script);color:#ffe1a6;margin-bottom:12px!important}
+.hero h1{font-size:clamp(36px,5vw,64px);max-width:16ch;text-shadow:0 2px 28px rgba(8,40,56,.45)}
+.hero-txt p{font-size:19px;max-width:44ch;margin-top:18px;color:#eef7f6;text-shadow:0 1px 12px rgba(8,40,56,.5)}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.postal{grid-column:3;position:relative;margin:0;background:#fffaf1;padding:12px 12px 0;border-radius:6px;box-shadow:0 24px 50px rgba(8,30,40,.45),0 4px 10px rgba(8,30,40,.25);transform:rotate(2.5deg);animation:llega .9s cubic-bezier(.2,.8,.2,1) both .15s}
+.postal img{display:block;width:100%;height:auto;border-radius:3px}
+.postal figcaption{font:italic 500 21px/1.2 var(--script);color:#0a5263;text-align:center;padding:12px 6px 16px}
+.sello{position:absolute;top:-26px;left:-26px;width:78px;height:78px;border-radius:50%;background:#fffaf1;border:3px solid #d1a457;display:grid;place-items:center;box-shadow:0 6px 16px rgba(8,30,40,.3);transform:rotate(-8deg)}
+.sello img{width:54px;height:auto}
+@keyframes llega{from{opacity:0;transform:translateY(40px) rotate(8deg)}to{opacity:1;transform:rotate(2.5deg)}}
+
+.regla{position:relative;height:56px;margin:44px 12px 0}
+.via{position:absolute;left:0;right:0;top:22px;height:12px;border-radius:6px;background:#5b5148;
+  background-image:linear-gradient(90deg,var(--sun) 50%,transparent 0);background-size:28px 2px;background-repeat:repeat-x;background-position:0 5px}
+.tick{position:absolute;top:0;height:56px;border-left:2px solid var(--line);transform:translateX(-1px)}
+.tick span{position:absolute;top:40px;left:4px;font-size:13px;color:var(--muted);font-weight:600}
+.paradas{position:relative;height:96px;margin:0 12px}
+.parada{position:absolute;left:var(--x);top:0;transform:translateX(-50%);background:none;border:0;padding:0;cursor:pointer;color:var(--ink);font:600 14px/1.2 var(--text);display:flex;flex-direction:column;align-items:center;width:88px;min-height:44px}
+.parada:nth-child(even){top:42px}
+.pin{width:20px;height:20px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 4px var(--sea);margin-bottom:6px}
+.parada.base .pin{background:var(--sun);box-shadow:inset 0 0 0 4px #10262c}
+.parada[aria-selected=true] .pin{background:var(--sea);box-shadow:0 0 0 5px color-mix(in srgb,var(--sea) 25%,transparent)}
+.parada.base[aria-selected=true] .pin{background:var(--sun)}
+.parada[aria-selected=true] .pnom{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.pnom{text-align:center}
+
+.lista{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:14px}
+.item{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;padding:18px;border-radius:14px;background:var(--soft);border:2px solid transparent;transition:border-color .25s}
+.item.activo{border-color:var(--sea)}
+.hito{background:#fff;color:#10262c;border:2px solid #10262c;border-radius:6px;height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.hito span{font-size:12px;font-weight:600}
+.hito b{font-size:22px}
+.meta{color:var(--muted);font-size:15px;margin:4px 0 8px}
+.nota{font-size:14px;color:var(--muted);margin-top:18px}
+
+.dos{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,72px);align-items:start}
+.arena{background:var(--sand);color:#10262c}
+.arena .lead{color:#4a3b25}
+.tranq,.platos{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 32px}
+.tranq li{border-top:3px solid #10262c;padding-top:14px}
+.tranq p,.platos p{margin-top:6px}
+.mar{background:var(--sea);color:#fff}
+.mar .lead{color:#cfe7e6}
+.platos li{border-top:3px solid var(--sun);padding-top:14px}
+.platos p{color:#dcefee}
+
+.habs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;margin-top:32px}
+.hab{border:2px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.foto{aspect-ratio:4/3;background:repeating-linear-gradient(135deg,var(--soft) 0 14px,color-mix(in srgb,var(--sand) 35%,var(--soft)) 14px 28px);display:flex;align-items:flex-end;padding:12px}
+.foto span{font-size:13px;color:var(--muted);background:var(--bg);padding:4px 10px;border-radius:999px}
+.hab-in{padding:20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.hab-in .btn{margin-top:auto;align-self:flex-start}
+.precio{margin:8px 0 14px}.precio b{font-size:24px}
+
+.form{background:var(--soft);border-radius:18px;padding:clamp(20px,3vw,32px);display:grid;gap:16px}
+.fila{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.form label{display:grid;gap:6px;font-weight:600;font-size:15px}
+.form input,.form select{font:16px var(--text);min-height:48px;padding:0 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+.form input:focus,.form select:focus{border-color:var(--sea);outline:none}
+.res{font-weight:600}
+.contacto{margin-top:22px}
+.logo-full{display:block;width:min(240px,60%);height:auto;margin-bottom:24px;background:#fff;border-radius:18px;padding:14px}
+
+.suave{background:var(--soft)}
+.blog-cab{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:flex-end;justify-content:space-between}
+.faq details{border-bottom:2px solid var(--line);padding:4px 0}
+.faq summary{cursor:pointer;font-weight:800;padding:14px 0;min-height:44px;list-style-position:outside}
+.faq details p{padding:0 0 16px;color:var(--muted)}
+
+
+
+@media (max-width:900px){
+  .hero-in{grid-template-columns:minmax(0,1fr);padding-bottom:48px}
+  .postal{grid-column:1;justify-self:start;width:min(50vw,260px);margin:34px 0 0 22px;transform:rotate(-2.5deg);animation:none}
+  .hero::before{background:linear-gradient(180deg,rgba(8,40,56,.55) 0%,rgba(8,40,56,.25) 40%,rgba(8,40,56,0) 60%)}
+  .hero :global(.escena){top:auto;bottom:0;height:560px}
+  .hero{background:linear-gradient(180deg,#0b3448 0%,#0d3e57 60%)}
+}
+@media (max-width:860px){
+  .dos{grid-template-columns:minmax(0,1fr)}
+  .regla,.paradas{display:none}
+  .lista{margin-top:20px}
+}
+@media (max-width:600px){
+  .top nav a:not(.nav-cta){display:none}
+  .hero{min-height:0}
+  .tranq,.platos,.fila{grid-template-columns:minmax(0,1fr)}
+}
+</style>

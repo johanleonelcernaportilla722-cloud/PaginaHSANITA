@@ -1,0 +1,35 @@
+---
+// Portada ilustrada para cada artículo según su tema.
+// Si luego tienes fotos propias, puedes reemplazarla por una <img>.
+const { tema = "ruta", alto = 220 } = Astro.props;
+const fondos = {
+  arqueologia: ["#f3d7a8", "#d9a86a"],
+  playa: ["#7fd6d3", "#0a5263"],
+  ruta: ["#f5c27a", "#0a5263"],
+  naturaleza: ["#bfe3c8", "#2f7d6e"],
+  comida: ["#f6e2b6", "#c9883e"],
+};
+const [a, b] = fondos[tema] ?? fondos.ruta;
+const id = `g-${tema}-${Math.round(Math.random() * 1e6)}`;
+---
+<svg class="portada" viewBox="0 0 600 300" preserveAspectRatio="xMidYMid slice" style={`height:${alto}px`} aria-hidden="true">
+  <defs><linearGradient id={id} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color={a}/><stop offset="1" stop-color={b}/></linearGradient></defs>
+  <rect width="600" height="300" fill={`url(#${id})`}/>
+  <circle cx="470" cy="90" r="42" fill="#fff3c4" opacity=".85"/>
+  {tema === "arqueologia" && (
+    <g fill="#9a6a3a"><path d="M150 250 h300 l-22 -32 H172Z"/><path d="M182 218 h236 l-20 -30 H202Z" fill="#a8763f"/><path d="M212 188 h176 l-18 -28 H230Z" fill="#b5834a"/><path d="M240 160 h120 l-16 -26 H256Z" fill="#c29256"/><rect x="0" y="250" width="600" height="50" fill="#e6c08a"/></g>
+  )}
+  {tema === "playa" && (
+    <g><rect y="170" width="600" height="130" fill="#0a5263"/><path d="M0 200 q30 -14 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0" fill="none" stroke="#bfeeee" stroke-width="4" opacity=".7"/><path d="M0 240 C150 220 300 270 600 230 V300 H0Z" fill="#f0d39f"/></g>
+  )}
+  {tema === "ruta" && (
+    <g><path d="M0 230 C150 200 350 200 600 170 V300 H0Z" fill="#ebcb98"/><path d="M60 300 C200 230 380 210 600 200" fill="none" stroke="#4d453e" stroke-width="30"/><path d="M60 300 C200 230 380 210 600 200" fill="none" stroke="#ffe29a" stroke-width="3" stroke-dasharray="16 14"/><rect x="300" y="168" width="44" height="30" rx="3" fill="#fff" stroke="#10262c" stroke-width="2"/><rect x="319" y="198" width="5" height="26" fill="#444"/></g>
+  )}
+  {tema === "naturaleza" && (
+    <g><path d="M0 220 C200 200 400 230 600 210 V300 H0Z" fill="#6fb3a8"/>{[60,110,150,430,480,530].map((x) => <path d={`M${x} 240 q-4 -50 2 -90 M${x} 240 q8 -40 20 -70 M${x} 240 q-10 -36 -24 -60`} stroke="#3f6b3a" stroke-width="4" fill="none" stroke-linecap="round"/>)}<path d="M250 120 q10 -10 20 0 q10 -10 20 0 M320 100 q8 -8 16 0 q8 -8 16 0" stroke="#10262c" stroke-width="3" fill="none" opacity=".5"/></g>
+  )}
+  {tema === "comida" && (
+    <g><ellipse cx="300" cy="215" rx="170" ry="48" fill="#fff"/><ellipse cx="300" cy="205" rx="120" ry="30" fill="#e9a65a"/><circle cx="260" cy="198" r="12" fill="#f2f2e6"/><circle cx="330" cy="210" r="10" fill="#d94f3a"/><path d="M220 190 q40 -20 80 0" stroke="#3f6b3a" stroke-width="5" fill="none"/></g>
+  )}
+</svg>
+<style>.portada{display:block;width:100%}</style>

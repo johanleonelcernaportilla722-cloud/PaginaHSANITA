@@ -1,0 +1,13 @@
+[
+  {
+    "id": "plantilla",
+    "nombre": "Nombre del huésped",
+    "origen": "Lima",
+    "fecha": "2026-11-22",
+    "estrellas": 5,
+    "texto": "PLANTILLA: copia este bloque, cambia los datos por una reseña real y pon publicada en true.",
+    "fuente": "Google",
+    "viaje": "Familia",
+    "publicada": false
+  }
+]
