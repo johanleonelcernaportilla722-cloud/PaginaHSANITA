@@ -152,11 +152,38 @@ export const ruta = [
   },
 ];
 
+// Platos típicos. momento: desayuno | almuerzo | antojo.
+// foto: imagen libre de Wikimedia Commons (se muestra con su crédito). Si tienes tus propias fotos,
+// ponlas en public/img/comida/ y cambia "foto" por "/img/comida/archivo.webp" y borra "credito".
+const C = "https://upload.wikimedia.org/wikipedia/commons/";
 export const comida = [
-  { n: "Tacu tacu barranquino", d: "El plato que no puedes dejar de probar en Barranca." },
-  { n: "Ceviche y chicharrón de pescado", d: "Pesca del día en Chorrillos y Puerto Chico." },
-  { n: "Ceviche de pato", d: "Clásico del Norte Chico para el almuerzo." },
-  { n: "Salchicha huachana", d: "Desayuno de campeones si pasas por Huacho." },
+  { n: "Tamal supano", de: "Supe", momento: "desayuno", d: "El desayuno clásico de Supe: tamal con pan, salsa criolla y un café caliente.",
+    foto: C + "thumb/8/82/Tamal_peruano_envuelto.jpg/500px-Tamal_peruano_envuelto.jpg", ancho: 3, alto: 4,
+    credito: { autor: "Miguel Alan Córdova Silva", licencia: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Tamal_peruano_envuelto.jpg" } },
+  { n: "Chicharrón con camote", de: "Norte Chico", momento: "desayuno", d: "Chicharrón de cerdo, camote frito y pan: el desayuno de domingo, con tamal al lado.",
+    foto: C + "thumb/b/bf/Desayuno_dominical_lime%C3%B1o.jpg/500px-Desayuno_dominical_lime%C3%B1o.jpg", ancho: 4, alto: 3,
+    credito: { autor: "Miguel Alan Córdova Silva", licencia: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Desayuno_dominical_lime%C3%B1o.jpg" } },
+  { n: "Salchicha huachana", de: "Huacho", momento: "desayuno", d: "Roja, frita y con huevo. Un desayuno contundente para un día largo.",
+    foto: C + "8/86/Salchicha_huachana_por_ditafel.jpg", ancho: 4, alto: 3,
+    credito: { autor: "ditafel", licencia: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Salchicha_huachana_por_ditafel.jpg" } },
+  { n: "Tacu tacu barranquino", de: "Barranca", momento: "almuerzo", d: "El plato bandera de Barranca: arroz y frejol dorados, con pescado, mariscos o carne.",
+    foto: C + "thumb/a/ac/Tacu_tacu_ba%C3%B1ado_en_sala_de_mariscos.JPG/500px-Tacu_tacu_ba%C3%B1ado_en_sala_de_mariscos.JPG", ancho: 4, alto: 3,
+    credito: { autor: "Dtarazona", licencia: "Dominio público", url: "https://commons.wikimedia.org/wiki/File:Tacu_tacu_ba%C3%B1ado_en_sala_de_mariscos.JPG" } },
+  { n: "Ceviche y chicharrón de pescado", de: "Puerto Chico", momento: "almuerzo", d: "Pesca del día frente al mar, en Chorrillos y Puerto Chico.",
+    foto: C + "0/05/Hora_del_almuerzo_ceviche_chicharron.jpg", ancho: 4, alto: 3,
+    credito: { autor: "Go!Pymes Fotos", licencia: "CC BY-SA 2.0", url: "https://commons.wikimedia.org/wiki/File:Hora_del_almuerzo_ceviche_chicharron.jpg" } },
+  { n: "Carapulcra", de: "Costa peruana", momento: "almuerzo", d: "Guiso de papa seca con cerdo, maní y ají panca. Sale en almuerzos de fiesta y de domingo.",
+    foto: C + "thumb/5/55/Carapulca.jpg/500px-Carapulca.jpg", ancho: 4, alto: 3,
+    credito: { autor: "tacowitte", licencia: "CC BY 2.0", url: "https://commons.wikimedia.org/wiki/File:Carapulca.jpg" } },
+  { n: "Arroz con pato", de: "Norte Chico", momento: "almuerzo", d: "Clásico del Norte Chico. Pruébalo también en ceviche de pato: cocido y sazonado con ají.",
+    foto: C + "thumb/c/c5/2021-02-07_Arroz_pato_ceviche.jpg/500px-2021-02-07_Arroz_pato_ceviche.jpg", ancho: 3, alto: 4,
+    credito: { autor: "MiguelAlanCS", licencia: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:2021-02-07_Arroz_pato_ceviche.jpg" } },
+  { n: "Dulces de Barranca", de: "Barranca", momento: "antojo", d: "Alfajores, buñuelos, turrones e higos rellenos.",
+    foto: C + "thumb/3/3f/Alfajores_peruanos_2018.jpg/500px-Alfajores_peruanos_2018.jpg", ancho: 4, alto: 3,
+    credito: { autor: "MiguelAlanCS", licencia: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Alfajores_peruanos_2018.jpg" } },
+  { n: "Pisco y vino de la zona", de: "Barranca", momento: "antojo", d: "Hechos por productores locales, para acompañar los dulces o brindar en un pisco sour.",
+    foto: C + "thumb/3/37/Pisco_sour_%28buffet%29.JPG/500px-Pisco_sour_%28buffet%29.JPG", ancho: 4, alto: 3,
+    credito: { autor: "Dtarazona", licencia: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Pisco_sour_(buffet).JPG" } },
 ];
 
 export const faq = [

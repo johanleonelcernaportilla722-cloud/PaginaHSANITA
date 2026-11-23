@@ -11,7 +11,8 @@ import Mapa from "../components/Mapa.astro";
 import Agenda from "../components/Agenda.astro";
 import { posts } from "../utils/blog";
 const ultimos = (await posts()).slice(0, 3);
-import { hostal, habitaciones, tranquilidad, ruta, comida, faq } from "../data/hostal";
+import { hostal, habitaciones, tranquilidad, ruta, faq } from "../data/hostal";
+import Comida from "../components/Comida.astro";
 
 const wa = (msg: string) => `https://wa.me/${hostal.whatsapp}?text=${encodeURIComponent(msg)}`;
 const kmMin = 140, kmMax = 210;
@@ -69,17 +70,7 @@ const year = new Date().getFullYear();
       <div class="wrap"><ResenasBloque limite={3} /></div>
     </section>
 
-    <section class="band mar">
-      <div class="wrap dos">
-        <div>
-          <h2>Qué comer en el Norte Chico</h2>
-          <p class="lead">El mar y el valle se juntan en la mesa. Pregúntanos dónde comer cada plato.</p>
-        </div>
-        <ul class="platos">
-          {comida.map((c) => (<li><h3>{c.n}</h3><p>{c.d}</p></li>))}
-        </ul>
-      </div>
-    </section>
+    <Comida />
 
     <section id="blog" class="band suave">
       <div class="wrap">

@@ -1,0 +1,76 @@
+---
+// Sección "Qué comer": platos típicos agrupados por momento del día, con ilustración propia.
+import { hostal, comida } from "../data/hostal";
+import { u } from "../utils/url";
+
+const grupos = [
+  { id: "desayuno", titulo: "Para el desayuno", nota: "Temprano, antes de salir a Caral." },
+  { id: "almuerzo", titulo: "Para el almuerzo", nota: "Frente al mar o en el centro." },
+  { id: "antojo", titulo: "Para el antojo", nota: "Dulces y algo para brindar." },
+];
+const wa = `https://wa.me/${hostal.whatsapp}?text=${encodeURIComponent(`Hola ${hostal.nombre}, ¿dónde me recomiendan comer en Barranca?`)}`;
+---
+<section id="comer" class="band comer">
+  <div class="wrap">
+    <div class="comer-cab">
+      <div>
+        <h2>Qué comer en Barranca y el Norte Chico</h2>
+        <p class="lead">Del tamal supano al tacu tacu: el mar y el valle se juntan en la mesa. Estos son los platos que tienes que probar.</p>
+      </div>
+      <a class="btn btn-sun" href={wa}>Pregúntanos dónde comer</a>
+    </div>
+
+    {grupos.map((g) => (
+      <div class="comer-grupo">
+        <div class="comer-gcab">
+          <h3 class="comer-mom">{g.titulo}</h3>
+          <p class="comer-nota">{g.nota}</p>
+        </div>
+        <ul class="comer-lista">
+          {comida.filter((c) => c.momento === g.id).map((c) => (
+            <li class="plato">
+              <figure class="plato-foto">
+                <img src={c.foto} alt={c.n} width="500" height="375" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+                {c.credito && <figcaption>Foto: <a href={c.credito.url} rel="noopener" target="_blank">{c.credito.autor}</a>, {c.credito.licencia}</figcaption>}
+              </figure>
+              <div class="plato-txt">
+                <h4>{c.n} <span class="plato-de">{c.de}</span></h4>
+                <p>{c.d}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+
+    <p class="comer-pie">¿Quieres saber más? Lee <a href={u("/blog/comida-tipica-de-barranca/")}>la guía de comida típica de Barranca</a>.</p>
+  </div>
+
+
+</section>
+
+<style is:global>
+.comer{background:var(--sea);color:#fff}
+.comer .lead{color:#cfe7e6;max-width:60ch}
+.comer h2{color:#fff}
+.comer-cab{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px 40px}
+.comer-grupo{margin-top:clamp(32px,4vw,48px)}
+.comer-gcab{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;border-top:3px solid var(--sun);padding-top:14px}
+.comer-mom{font:600 clamp(1.3rem,2vw,1.55rem)/1.2 var(--display);color:var(--sun);margin:0}
+.comer-nota{color:#cfe7e6;margin:0;font-size:.95rem}
+.comer-lista{list-style:none;padding:0;margin:20px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(16px,2.4vw,28px)}
+.plato{background:#063f4c;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.plato-foto{margin:0;position:relative;aspect-ratio:4/3;background:#0e6a7c}
+.plato-foto{overflow:hidden}
+.plato-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.plato:hover .plato-foto img{transform:scale(1.04)}
+.plato-foto figcaption{z-index:1;position:absolute;right:6px;bottom:6px;font:500 .68rem/1.2 var(--text);color:#fff;background:rgba(3,49,59,.72);padding:3px 7px;border-radius:999px;max-width:calc(100% - 12px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plato-foto figcaption a{color:#fff;text-decoration:underline}
+.plato-txt{padding:16px 18px 20px}
+.plato h4{font:600 1.2rem/1.25 var(--display);color:#fff;margin:0}
+.plato-de{display:inline-block;font:700 .72rem/1 var(--text);color:#063f4c;background:#cfe7e6;border-radius:999px;padding:4px 8px;margin-left:4px;vertical-align:2px;white-space:nowrap}
+.plato p{color:#dcefee;margin:8px 0 0;line-height:1.55}
+.comer-pie{margin-top:clamp(28px,4vw,40px);color:#cfe7e6}
+.comer-pie a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+@media (prefers-reduced-motion:reduce){.plato-foto img{transition:none}}
+</style>
