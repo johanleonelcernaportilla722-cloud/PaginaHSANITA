@@ -1,4 +1,5 @@
 ---
+import { u } from "../utils/url";
 import Base from "../layouts/Base.astro";
 import Escena from "../components/Escena.astro";
 import Header from "../components/Header.astro";
@@ -36,11 +37,11 @@ const year = new Date().getFullYear();
         </div>
         <figure class="postal">
           <picture>
-            <source type="image/webp" srcset="/img/fachada-hostal-anita-420.webp 420w, /img/fachada-hostal-anita.webp 760w" sizes="(max-width: 900px) 52vw, 330px" />
-            <img src="/img/fachada-hostal-anita.jpg" width="760" height="1270" alt={`Fachada de ${hostal.nombre} en Barranca, con su letrero vertical`} fetchpriority="high" decoding="async" />
+            <source type="image/webp" srcset={`${u("/img/fachada-hostal-anita-420.webp")} 420w, ${u("/img/fachada-hostal-anita.webp")} 760w`} sizes="(max-width: 900px) 52vw, 330px" />
+            <img src={u("/img/fachada-hostal-anita.jpg")} width="760" height="1270" alt={`Fachada de ${hostal.nombre} en Barranca, con su letrero vertical`} fetchpriority="high" decoding="async" />
           </picture>
           <figcaption>Así nos reconoces en Barranca</figcaption>
-          <span class="sello" aria-hidden="true"><img src="/img/isotipo-anita.svg" alt="" width="54" height="40" /></span>
+          <span class="sello" aria-hidden="true"><img src={u("/img/isotipo-anita.svg")} alt="" width="54" height="40" /></span>
         </figure>
       </div>
     </section>
@@ -87,7 +88,7 @@ const year = new Date().getFullYear();
             <h2>Guías para tu viaje</h2>
             <p class="lead">Lo que necesitas saber antes de venir a Barranca, escrito por quienes vivimos aquí.</p>
           </div>
-          <a class="btn btn-sun" href="/blog/">Ver todas las guías</a>
+          <a class="btn btn-sun" href={u("/blog/")}>Ver todas las guías</a>
         </div>
         <div class="tposts">{ultimos.map((post) => <TarjetaPost post={post} />)}</div>
       </div>

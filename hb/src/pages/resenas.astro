@@ -1,4 +1,5 @@
 ---
+import { u } from "../utils/url";
 import Base from "../layouts/Base.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -10,7 +11,7 @@ import { hostal } from "../data/hostal";
   <main>
     <section class="band" style="background:var(--soft)">
       <div class="wrap">
-        <nav class="migas" aria-label="Ruta de navegación"><a href="/">Inicio</a> / Reseñas</nav>
+        <nav class="migas" aria-label="Ruta de navegación"><a href={u("/")}>Inicio</a> / Reseñas</nav>
         <ResenasBloque titulo="Opiniones de nuestros huéspedes" nivel="h1" />
       </div>
     </section>

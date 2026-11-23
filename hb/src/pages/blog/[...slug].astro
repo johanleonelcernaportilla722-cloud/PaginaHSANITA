@@ -1,4 +1,5 @@
 ---
+import { u } from "../../utils/url";
 import { render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Header from "../../components/Header.astro";
@@ -15,7 +16,7 @@ export async function getStaticPaths() {
 const { post, lista } = Astro.props;
 const { Content, headings } = await render(post);
 const relacionados = lista.filter((p) => p.id !== post.id).slice(0, 3);
-const url = new URL(`/blog/${post.id}/`, Astro.site).toString();
+const url = new URL(u(`/blog/${post.id}/`), Astro.site).toString();
 const wa = `https://wa.me/${hostal.whatsapp}?text=${encodeURIComponent(`Hola, leí "${post.data.title}" y quiero reservar en ${hostal.nombre}.`)}`;
 const jsonld = [
   {
@@ -25,13 +26,13 @@ const jsonld = [
     dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
     inLanguage: "es-PE", mainEntityOfPage: url, keywords: post.data.tags.join(", "),
     author: { "@type": "Organization", name: hostal.nombre },
-    publisher: { "@type": "Organization", name: hostal.nombre, logo: { "@type": "ImageObject", url: new URL("/img/logo-hostal-anita.png", Astro.site).toString() } },
+    publisher: { "@type": "Organization", name: hostal.nombre, logo: { "@type": "ImageObject", url: new URL(u("/img/logo-hostal-anita.png"), Astro.site).toString() } },
   },
   {
     "@context": "https://schema.org", "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Inicio", item: new URL("/", Astro.site).toString() },
-      { "@type": "ListItem", position: 2, name: "Blog", item: new URL("/blog/", Astro.site).toString() },
+      { "@type": "ListItem", position: 1, name: "Inicio", item: new URL(u("/"), Astro.site).toString() },
+      { "@type": "ListItem", position: 2, name: "Blog", item: new URL(u("/blog/"), Astro.site).toString() },
       { "@type": "ListItem", position: 3, name: post.data.title, item: url },
     ],
   },
@@ -43,7 +44,7 @@ const jsonld = [
     <article>
       <header class="band post-cab">
         <div class="wrap angosto">
-          <nav class="migas" aria-label="Ruta de navegación"><a href="/">Inicio</a> / <a href="/blog/">Blog</a> / {temas[post.data.tema]}</nav>
+          <nav class="migas" aria-label="Ruta de navegación"><a href={u("/")}>Inicio</a> / <a href={u("/blog/")}>Blog</a> / {temas[post.data.tema]}</nav>
           <h1>{post.data.title}</h1>
           <p class="lead">{post.data.description}</p>
           <p class="post-meta">Por {hostal.nombre}, <time datetime={post.data.pubDate.toISOString()}>{fecha(post.data.pubDate)}</time>. {minutos(post.body)} min de lectura.</p>
@@ -59,7 +60,7 @@ const jsonld = [
         )}
         <div class="prosa"><Content /></div>
         <aside class="cta-post">
-          <img src="/img/isotipo-anita.svg" alt="" width="84" height="60" />
+          <img src={u("/img/isotipo-anita.svg")} alt="" width="84" height="60" />
           <div>
             <h2>¿Vienes a Barranca?</h2>
             <p>Quédate en {hostal.nombre}, {hostal.lema.charAt(0).toLowerCase() + hostal.lema.slice(1)}. Te ayudamos a armar tu ruta.</p>

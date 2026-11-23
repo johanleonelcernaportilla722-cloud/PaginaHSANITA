@@ -1,4 +1,5 @@
 ---
+import { u } from "../utils/url";
 // Bloque de reseñas para la página principal y la página /resenas/
 import Estrellas from "./Estrellas.astro";
 import TarjetaResena from "./TarjetaResena.astro";
@@ -29,7 +30,7 @@ const H = nivel;
   <div class="resenas-grid">{lista.map((r) => <TarjetaResena r={r} />)}</div>
 )}
 {limite && total > limite && (
-  <p style="margin-top:22px"><a class="enlace-mas" href="/resenas/">Ver las {total} reseñas</a></p>
+  <p style="margin-top:22px"><a class="enlace-mas" href={u("/resenas/")}>Ver las {total} reseñas</a></p>
 )}
 <style is:global>
 .resenas-cab{display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:space-between;align-items:flex-end}

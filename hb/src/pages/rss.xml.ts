@@ -2,6 +2,7 @@ import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
 import { posts } from "../utils/blog";
 import { hostal } from "../data/hostal";
+import { u } from "../utils/url";
 
 export async function GET(context: APIContext) {
   const lista = await posts();
@@ -13,7 +14,7 @@ export async function GET(context: APIContext) {
       title: p.data.title,
       description: p.data.description,
       pubDate: p.data.pubDate,
-      link: `/blog/${p.id}/`,
+      link: u(`/blog/${p.id}/`),
     })),
     customData: "<language>es-pe</language>",
   });

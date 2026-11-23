@@ -1,4 +1,5 @@
 ---
+import { u } from "../utils/url";
 // Mapa ilustrado e interactivo de la provincia de Barranca.
 import { lugares, categorias } from "../data/lugares";
 import { hostal } from "../data/hostal";
@@ -73,7 +74,7 @@ const iconos: Record<string, string> = {
           <g class="m-hostal" transform={`translate(${H.x} ${H.y})`}><g class="m-in">
             <circle r="26" fill="#d1a457" opacity=".25"><animate attributeName="r" values="18;30;18" dur="3s" repeatCount="indefinite"/></circle>
             <circle r="15" fill="#fff" stroke="#d1a457" stroke-width="3"/>
-            <image href="/img/isotipo-anita.svg" x="-12" y="-9" width="24" height="18"/>
+            <image href={u("/img/isotipo-anita.svg")} x="-12" y="-9" width="24" height="18"/>
             <text x="20" y="5" class="m-hostal-txt">{hostal.nombre}</text>
           </g></g>
           <!-- lugares -->
@@ -119,7 +120,7 @@ const iconos: Record<string, string> = {
   </div>
 </section>
 
-<script is:inline define:vars={{ lugares, categorias }}>
+<script is:inline define:vars={{ lugares, categorias, blogBase: u("/blog/") }}>
 {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('.m-hostal animate').forEach((a) => a.remove());
   const pins = [...document.querySelectorAll('.m-pin')];
@@ -142,7 +143,7 @@ const iconos: Record<string, string> = {
     $('m-tit').textContent = l.nombre; $('m-txt').textContent = l.texto;
     $('m-km').hidden = !l.km; if (l.km) $('m-km').textContent = `Panamericana Norte, km ${l.km}`;
     $('m-maps').href = l.maps;
-    $('m-blog').hidden = !l.blog; if (l.blog) $('m-blog').href = `/blog/${l.blog}/`;
+    $('m-blog').hidden = !l.blog; if (l.blog) $('m-blog').href = `${blogBase}${l.blog}/`;
   };
   // ---- zoom, arrastre y tamaño constante de íconos ----
   const svg = document.querySelector('.mapa');

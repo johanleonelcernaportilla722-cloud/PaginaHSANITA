@@ -17,13 +17,13 @@ Es la razón por la que muchos llegan. Caral es considerada la **ciudad más ant
 - **Horario:** todos los días de 9:00 a. m. a 4:00 p. m.
 - **Consejo:** sal temprano desde Barranca para recorrerla con calma y evitar el sol fuerte del mediodía.
 
-Lee nuestra guía completa: [cómo llegar a Caral desde Barranca](/blog/como-llegar-a-caral-desde-barranca/).
+Lee nuestra guía completa: [cómo llegar a Caral desde Barranca](../como-llegar-a-caral-desde-barranca/).
 
 ## 2. Las playas de Barranca
 
 El litoral de la provincia tiene playas para todos los gustos. Al norte están **Chorrillos, Miraflores y Puerto Chico**; al sur, **El Colorado, Bandurria y Atarraya**. En Supe Puerto, detrás de la isla de **La Isla**, el mar formó pozas naturales ideales para bañarse con calma.
 
-Más detalles en [playas de Barranca: cuáles visitar](/blog/playas-de-barranca/).
+Más detalles en [playas de Barranca: cuáles visitar](../playas-de-barranca/).
 
 ## 3. Áspero, la ciudad pesquera de Caral
 
@@ -31,7 +31,7 @@ En **Supe Puerto (km 191)** está Áspero, el asentamiento junto al mar que form
 
 ## 4. Fortaleza de Paramonga
 
-Un templo de adobe construido por la **cultura Chimú** y luego ocupado por los incas, a la altura del **km 204**. Desde Barranca salen colectivos hacia Paramonga. Te lo contamos todo en [Fortaleza de Paramonga: historia y cómo llegar](/blog/fortaleza-de-paramonga/).
+Un templo de adobe construido por la **cultura Chimú** y luego ocupado por los incas, a la altura del **km 204**. Desde Barranca salen colectivos hacia Paramonga. Te lo contamos todo en [Fortaleza de Paramonga: historia y cómo llegar](../fortaleza-de-paramonga/).
 
 ## 5. Pativilca y su historia
 
@@ -47,6 +47,6 @@ No te vayas sin probar el **tacu tacu barranquino**, el ceviche y el chicharrón
 
 ## ¿Cuántos días necesito?
 
-Con **dos días** ves lo principal: un día para Caral y Áspero, y otro para playas y Paramonga. Si vienes con calma, un tercer día para la Albufera vale la pena. Mira nuestra [ruta de 2 días por el Norte Chico](/blog/ruta-2-dias-norte-chico/).
+Con **dos días** ves lo principal: un día para Caral y Áspero, y otro para playas y Paramonga. Si vienes con calma, un tercer día para la Albufera vale la pena. Mira nuestra [ruta de 2 días por el Norte Chico](../ruta-2-dias-norte-chico/).
 
 > Horarios y accesos pueden cambiar. Confírmalos antes de salir; en el hostal te ayudamos con eso.

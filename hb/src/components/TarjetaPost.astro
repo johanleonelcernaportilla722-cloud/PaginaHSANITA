@@ -1,10 +1,11 @@
 ---
+import { u } from "../utils/url";
 import Portada from "./Portada.astro";
 import { temas, fecha, minutos } from "../utils/blog";
 const { post } = Astro.props;
 ---
 <article class="tpost">
-  <a href={`/blog/${post.id}/`} class="tpost-link">
+  <a href={u(`/blog/${post.id}/`)} class="tpost-link">
     <Portada tema={post.data.tema} alto={180} />
     <div class="tpost-in">
       <p class="tpost-meta">{temas[post.data.tema]}, {minutos(post.body)} min de lectura</p>

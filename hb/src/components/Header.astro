@@ -1,15 +1,16 @@
 ---
+import { u } from "../utils/url";
 ---
   <header class="top">
     <div class="wrap top-in">
-      <a href="/" class="marca"><img src="/img/isotipo-anita.svg" alt="" width="58" height="42" /><span><small>Hostal</small>Anita</span></a>
+      <a href={u("/")} class="marca"><img src={u("/img/isotipo-anita.svg")} alt="" width="58" height="42" /><span><small>Hostal</small>Anita</span></a>
       <nav aria-label="Secciones">
-        <a href="/#ruta">Qué visitar</a>
-        <a href="/#habitaciones">Habitaciones</a>
-        <a href="/#llegar">Cómo llegar</a>
-        <a href="/resenas/">Reseñas</a>
-        <a href="/blog/">Blog</a>
-        <a href="/#habitaciones" class="nav-cta">Reservar</a>
+        <a href={u("/#ruta")}>Qué visitar</a>
+        <a href={u("/#habitaciones")}>Habitaciones</a>
+        <a href={u("/#llegar")}>Cómo llegar</a>
+        <a href={u("/resenas/")}>Reseñas</a>
+        <a href={u("/blog/")}>Blog</a>
+        <a href={u("/#habitaciones")} class="nav-cta">Reservar</a>
       </nav>
     </div>
   </header>
