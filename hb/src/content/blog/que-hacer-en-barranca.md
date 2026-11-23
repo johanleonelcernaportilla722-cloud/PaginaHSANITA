@@ -49,4 +49,4 @@ No te vayas sin probar el **tacu tacu barranquino**, el ceviche y el chicharrón
 
 Con **dos días** ves lo principal: un día para Caral y Áspero, y otro para playas y Paramonga. Si vienes con calma, un tercer día para la Albufera vale la pena. Mira nuestra [ruta de 2 días por el Norte Chico](../ruta-2-dias-norte-chico/).
 
-> Horarios y accesos pueden cambiar. Confírmalos antes de salir; en el hostal te ayudamos con eso.
+> Horarios y accesos pueden cambiar. Confírmalos en las fuentes oficiales antes de salir.

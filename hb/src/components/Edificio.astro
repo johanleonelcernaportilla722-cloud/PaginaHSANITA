@@ -360,6 +360,6 @@ const precios = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
 .r3-precio b{font-size:22px}
 .r3-form{display:grid;gap:14px}
 .r3-form .fila{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-@media (max-width:900px){.r3d{grid-template-columns:minmax(0,1fr)}.r3d-panel{position:static}}
+@media (max-width:900px){.r3d{grid-template-columns:minmax(0,1fr);row-gap:16px}.r3d-vista{display:contents}.r3d-panel{position:static;order:2}.tipos,#r3-ocupados{order:3}}
 @media (max-width:480px){.r3-form .fila{grid-template-columns:minmax(0,1fr)}}
 </style>

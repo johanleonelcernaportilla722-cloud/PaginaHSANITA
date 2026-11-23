@@ -32,7 +32,7 @@ const year = new Date().getFullYear();
           <h1>Barranca, a 190 km de Lima. Caral, el mar y Paramonga, a la vuelta.</h1>
           <p>Duerme tranquilo con nosotros y recorre el Norte Chico de día: la ciudad más antigua de América, playas de pozas naturales y atardeceres frente al Cristo del Cerro Colorado.</p>
           <div class="hero-cta">
-            <a class="btn btn-sun" href={wa(`Hola, quiero reservar en ${hostal.nombre}.`)}>Reservar por WhatsApp</a>
+            <a class="btn btn-sun" href="#habitaciones">Elegir mi habitación</a>
             <a class="btn btn-ghost" href="#ruta">Ver qué visitar</a>
           </div>
         </div>
@@ -47,6 +47,8 @@ const year = new Date().getFullYear();
       </div>
     </section>
 
+    <Edificio />
+
     <Mapa />
 
     <Agenda />
@@ -55,7 +57,7 @@ const year = new Date().getFullYear();
       <div class="wrap dos">
         <div>
           <h2>Después del paseo, llegas a un lugar seguro</h2>
-          <p class="lead">Caral te pide madrugar y la playa te deja cansado. Aquí te esperamos con una cama limpia, agua caliente y alguien que conoce la zona.</p>
+          <p class="lead">Caral te pide madrugar y la playa te deja cansado. Aquí te espera una cama limpia, agua caliente y un lugar tranquilo para descansar.</p>
         </div>
         <ul class="tranq">
           {tranquilidad.map((x) => (
@@ -84,8 +86,6 @@ const year = new Date().getFullYear();
         <div class="tposts">{ultimos.map((post) => <TarjetaPost post={post} />)}</div>
       </div>
     </section>
-
-    <Edificio />
 
     <section id="llegar" class="band suave">
       <div class="wrap dos">

@@ -1,6 +1,6 @@
 ---
 // Sección "Qué comer": platos típicos agrupados por momento del día, con ilustración propia.
-import { hostal, comida } from "../data/hostal";
+import { comida } from "../data/hostal";
 import { u } from "../utils/url";
 
 const grupos = [
@@ -8,7 +8,6 @@ const grupos = [
   { id: "almuerzo", titulo: "Para el almuerzo", nota: "Frente al mar o en el centro." },
   { id: "antojo", titulo: "Para el antojo", nota: "Dulces y algo para brindar." },
 ];
-const wa = `https://wa.me/${hostal.whatsapp}?text=${encodeURIComponent(`Hola ${hostal.nombre}, ¿dónde me recomiendan comer en Barranca?`)}`;
 ---
 <section id="comer" class="band comer">
   <div class="wrap">
@@ -17,7 +16,6 @@ const wa = `https://wa.me/${hostal.whatsapp}?text=${encodeURIComponent(`Hola ${h
         <h2>Qué comer en Barranca y el Norte Chico</h2>
         <p class="lead">Del tamal supano al tacu tacu: el mar y el valle se juntan en la mesa. Estos son los platos que tienes que probar.</p>
       </div>
-      <a class="btn btn-sun" href={wa}>Pregúntanos dónde comer</a>
     </div>
 
     {grupos.map((g) => (

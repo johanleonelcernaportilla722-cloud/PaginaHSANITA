@@ -43,4 +43,4 @@ Haz una parada en la **Albufera de Medio Mundo** (km 175) camino de regreso a Li
 - Ropa de baño y toalla para La Isla.
 - Efectivo para entradas, colectivos y mercados.
 
-> Escríbenos antes de llegar y te ayudamos a ajustar la ruta a tu ritmo, con niños o en transporte público.
+> Ajusta la ruta a tu ritmo: con niños o en transporte público, conviene dejar más tiempo entre un lugar y otro.

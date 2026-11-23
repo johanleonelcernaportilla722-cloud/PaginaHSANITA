@@ -25,7 +25,7 @@ Las entradas se pagan según la tarifa de la Zona Arqueológica Caral. Revisa el
 ## Cómo llegar desde Barranca
 
 - **En carro propio:** toma la Panamericana Norte hacia el sur hasta el km 184 y sigue el desvío señalizado hacia el valle de Supe.
-- **En transporte público:** ve primero hasta **Supe Pueblo** y desde ahí busca movilidad hacia Caral. En recepción te indicamos cómo hacerlo y a qué hora conviene salir.
+- **En transporte público:** ve primero hasta **Supe Pueblo** y desde ahí busca movilidad hacia Caral. Sal temprano para llegar cuando abre el sitio.
 
 ## Por qué Caral es tan especial
 

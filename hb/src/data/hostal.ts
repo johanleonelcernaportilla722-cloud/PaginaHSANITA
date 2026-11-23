@@ -79,7 +79,7 @@ export const tranquilidad = [
   { t: "Puerta controlada", d: "La puerta principal se abre de 6:00 a. m. a 12:00 de la noche. ¿Llegas más tarde? Llamas a recepción y te abrimos." },
   { t: "Cámaras de seguridad", d: "En la entrada y afuera del hostal, para que descanses tranquilo." },
   { t: "Cochera al frente", d: "Hay dos cocheras justo al frente del hostal para dejar tu carro mientras paseas." },
-  { t: "Te armamos la ruta", d: "Te decimos cómo llegar a Caral, Áspero o Paramonga y a qué hora salir." },
+  { t: "Espacio para la familia", d: "Habitaciones familiares con dos camas de 2 plazas, TV y wifi." },
   { t: "A una cuadra de la plaza", d: "Cerca del mercado, farmacias, supermercados y la playa. Todo lo que necesitas, a pocos pasos." },
 ];
 
@@ -197,7 +197,7 @@ export const faq = [
   },
   {
     q: "¿Y a la Fortaleza de Paramonga?",
-    a: "Salen colectivos desde Barranca hacia Paramonga, unos 25 minutos de viaje. Pregunta en recepción y te indicamos el paradero.",
+    a: "Salen colectivos desde Barranca hacia Paramonga, unos 25 minutos de viaje. Los colectivos salen del centro de Barranca.",
   },
   {
     q: "¿Cuál es la mejor época?",

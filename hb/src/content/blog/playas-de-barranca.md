@@ -45,4 +45,4 @@ Aprovecha para visitar **Áspero**, la antigua ciudad pesquera de Caral, que est
 - Lleva bloqueador aunque el cielo esté nublado.
 - Lleva una bolsa para tu basura: las playas del Norte Chico merecen seguir limpias.
 
-> ¿Dudas sobre qué playa te conviene según lo que buscas? Pregúntanos en el hostal.
+> En verano las playas se llenan los fines de semana: si buscas tranquilidad, ve temprano o entre semana.
