@@ -21,6 +21,8 @@ export const hostal = {
   hojaEventos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSpYIId7pBO-K5lduWwBTpyyLhGvstWt_r47xUpwwzUxn0HWefC9VcKDgvErnmD8r_WKgSu0F9P-qus/pub?output=csv",
   checkIn: "1:00 p. m.",
   checkOut: "11:00 a. m.",
+  // Condición de reserva (se muestra junto al botón de reservar y en preguntas frecuentes)
+  condicionReserva: "La separación de la habitación se hace mediante pago adelantado.",
   // Link para que te dejen reseña en Google (Google Business Profile → "Pedir reseñas")
   resenaGoogle: "https://g.page/r/TU-CODIGO/review", // EJEMPLO
   redes: {
@@ -40,14 +42,14 @@ export const habitaciones = [
     nombre: "Matrimonial",
     capacidad: "2 personas",
     precio: 50,
-    detalle: "Cama de 2 plazas, baño privado con agua caliente, TV y wifi.",
+    detalle: "Cama de 2 plazas, baño privado con agua caliente, TV, wifi y ventilador.",
   },
   {
     id: "familiar",
     nombre: "Familiar",
     capacidad: "4 personas",
     precio: 90,
-    detalle: "Dos camas de 2 plazas, baño privado con agua caliente, TV y wifi. Ideal para familias o amigos.",
+    detalle: "Dos camas de 2 plazas, baño privado con agua caliente, TV, wifi y ventilador. Ideal para familias o amigos.",
   },
 ];
 
@@ -79,7 +81,7 @@ export const tranquilidad = [
   { t: "Puerta controlada", d: "La puerta principal se abre de 6:00 a. m. a 12:00 de la noche. ¿Llegas más tarde? Llamas a recepción y te abrimos." },
   { t: "Cámaras de seguridad", d: "En la entrada y afuera del hostal, para que descanses tranquilo." },
   { t: "Cochera al frente", d: "Hay dos cocheras justo al frente del hostal para dejar tu carro mientras paseas." },
-  { t: "Espacio para la familia", d: "Habitaciones familiares con dos camas de 2 plazas, TV y wifi." },
+  { t: "Espacio para la familia", d: "Habitaciones familiares con dos camas de 2 plazas, TV, wifi y ventilador." },
   { t: "A una cuadra de la plaza", d: "Cerca del mercado, farmacias, supermercados y la playa. Todo lo que necesitas, a pocos pasos." },
 ];
 
@@ -209,6 +211,6 @@ export const faq = [
   },
   {
     q: "¿Cómo reservo?",
-    a: "Escríbenos por WhatsApp con tus fechas y el número de personas. Te confirmamos disponibilidad y precio al momento.",
+    a: "Elige tus habitaciones en el edificio y envíanos el mensaje por WhatsApp con tus fechas. La separación de la habitación se hace mediante pago adelantado; sin pago, la habitación no queda reservada.",
   },
 ];

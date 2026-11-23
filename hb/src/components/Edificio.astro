@@ -81,7 +81,7 @@ const precios = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
   <span id="reservar" class="ancla" aria-hidden="true"></span>
   <div class="wrap">
     <h2>Habitaciones: elige la tuya en el edificio</h2>
-    <p class="lead">Todas con baño privado, agua caliente y wifi. Check-in desde las {hostal.checkIn}, check-out hasta las {hostal.checkOut} Toca una o varias ventanas para separar tus habitaciones y reservarlas por WhatsApp.</p>
+    <p class="lead">Todas con baño privado, agua caliente, TV, wifi y ventilador. Check-in desde las {hostal.checkIn}, check-out hasta las {hostal.checkOut} Toca una o varias ventanas para separar tus habitaciones y reservarlas por WhatsApp.</p>
 
     <div class="r3d">
       <div class="r3d-vista">
@@ -187,6 +187,7 @@ const precios = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
           </div>
           <p id="r3-res" class="res" aria-live="polite">Elige tus habitaciones y fechas.</p>
           <a id="r3-btn" class="btn btn-sun" href={`https://wa.me/${hostal.whatsapp}`}>Reservar por WhatsApp</a>
+          <p class="r3-cond">🔒 {hostal.condicionReserva}</p>
         </form>
       </aside>
     </div>
@@ -252,6 +253,7 @@ const precios = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
     if (noches > 0) msg += ` Llegada: ${fmt(a)}. Salida: ${fmt(b)} (${noches} noche${noches > 1 ? 's' : ''}).`;
     msg += ` Personas: ${pax}.`;
     if ($('r3-nom').value.trim()) msg += ` Mi nombre es ${$('r3-nom').value.trim()}.`;
+    msg += ' ¿Cómo hago el pago adelantado para separar?';
     $('r3-btn').href = `https://wa.me/${f.dataset.wa}?text=${encodeURIComponent(msg)}`;
   };
 
@@ -359,6 +361,7 @@ const precios = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
 #r3-tit{font-size:26px;color:var(--sea-ink);margin:2px 0 6px}
 .r3-precio b{font-size:22px}
 .r3-form{display:grid;gap:14px}
+.r3-cond{margin:10px 0 0;font-size:14px;color:var(--muted);text-align:center}
 .r3-form .fila{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media (max-width:900px){.r3d{grid-template-columns:minmax(0,1fr);row-gap:16px}.r3d-vista{display:contents}.r3d-panel{position:static;order:2}.tipos,#r3-ocupados{order:3}}
 @media (max-width:480px){.r3-form .fila{grid-template-columns:minmax(0,1fr)}}
