@@ -12,7 +12,7 @@ tags: [Norte Chico, itinerario Barranca, fin de semana cerca de Lima, Caral, Par
 
 | Hora | Qué hacer |
 |---|---|
-| 7:30 a. m. | Desayuno en el hostal |
+| 7:30 a. m. | Desayuno en el mercado, cerca del hostal |
 | 8:15 a. m. | Salida hacia el desvío de Caral (km 184) |
 | 9:00 a. m. | Recorrido por la **Ciudad Sagrada de Caral** |
 | 1:00 p. m. | Almuerzo en Supe |

@@ -7,11 +7,13 @@ export const hostal = {
   nombre: "Hostal Anita",
   lema: "Tu refugio en Barranca",
   bendicion: "Mil Mil Mil Bendiciones",
-  whatsapp: "51999999999", // EJEMPLO: 51 + número, sin espacios
-  telefonoVisible: "+51 999 999 999", // EJEMPLO
+  whatsapp: "51983355689", // 51 + número, sin espacios
+  telefonoVisible: "+51 983 355 689",
   email: "reservas@tuhostal.pe", // EJEMPLO
-  direccion: "Jr. Ejemplo 123, Barranca, Lima", // EJEMPLO
-  mapsUrl: "https://maps.google.com/?q=Barranca+Lima+Peru", // EJEMPLO: link de tu ubicación
+  direccion: "Pedro Reyes Barboza, Barranca 15169",
+  calle: "Pedro Reyes Barboza",
+  codigoPostal: "15169",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Hostal+Anita+Pedro+Reyes+Barboza+Barranca+15169", // puedes cambiarlo por el link "Compartir" de Google Maps
   // Hoja de Google Sheets publicada como CSV (precios y cuartos ocupados).
   // Si está vacía, la web usa los precios de abajo.
   hojaDatos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCc_IjA0FYVCgGjOJrI2qsv38BUcSCPxG7VLmsVzAT0Yeb87PdhMq9CT2t-ZYl6T2scw2l-EuYo4Za/pub?output=csv",
@@ -45,7 +47,7 @@ export const habitaciones = [
     nombre: "Familiar",
     capacidad: "4 personas",
     precio: 90,
-    detalle: "Una cama de 2 plazas y dos de 1 plaza. Espacio para llegar con los chicos.",
+    detalle: "Dos camas de 2 plazas, baño privado con agua caliente, TV y wifi. Ideal para familias o amigos.",
   },
 ];
 
@@ -72,12 +74,13 @@ export const edificio = {
   ],
 };
 
-// Lo que hace distinto al hostal (EJEMPLO: confirma que cada punto sea cierto)
+// Lo que hace distinto al hostal
 export const tranquilidad = [
-  { t: "Recepción atenta", d: "Alguien te recibe aunque llegues tarde del último bus." },
-  { t: "Cochera y cámaras", d: "Tu carro y tus cosas quedan seguros mientras paseas." },
+  { t: "Puerta controlada", d: "La puerta principal se abre de 6:00 a. m. a 12:00 de la noche. ¿Llegas más tarde? Llamas a recepción y te abrimos." },
+  { t: "Cámaras de seguridad", d: "En la entrada y afuera del hostal, para que descanses tranquilo." },
+  { t: "Cochera al frente", d: "Hay dos cocheras justo al frente del hostal para dejar tu carro mientras paseas." },
   { t: "Te armamos la ruta", d: "Te decimos cómo llegar a Caral, Áspero o Paramonga y a qué hora salir." },
-  { t: "Desayuno temprano", d: "Para que salgas a Caral con el estómago lleno y llegues cuando abre." },
+  { t: "A una cuadra de la plaza", d: "Cerca del mercado, farmacias, supermercados y la playa. Todo lo que necesitas, a pocos pasos." },
 ];
 
 // La ruta del Norte Chico, ordenada por kilómetro de la Panamericana Norte.
@@ -172,6 +175,10 @@ export const faq = [
   {
     q: "¿Cuál es la mejor época?",
     a: "El verano (diciembre a abril) es temporada de playa. El resto del año es ideal para Caral, Áspero y la Albufera, con menos gente.",
+  },
+  {
+    q: "¿A qué hora cierra la puerta?",
+    a: "La puerta principal se abre de 6:00 a. m. a 12:00 de la noche, para que todos descansen tranquilos. Si llegas más tarde, llama a recepción y te abrimos sin problema.",
   },
   {
     q: "¿Cómo reservo?",

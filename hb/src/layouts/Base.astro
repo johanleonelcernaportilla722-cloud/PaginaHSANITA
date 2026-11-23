@@ -17,7 +17,7 @@ const negocio = {
   slogan: hostal.lema,
   url: new URL(u("/"), Astro.site).toString(),
   logo: new URL(u("/img/logo-hostal-anita.png"), Astro.site).toString(),
-  address: { "@type": "PostalAddress", streetAddress: hostal.direccion, addressLocality: "Barranca", addressRegion: "Lima", addressCountry: "PE" },
+  address: { "@type": "PostalAddress", streetAddress: hostal.calle, postalCode: hostal.codigoPostal, addressLocality: "Barranca", addressRegion: "Lima", addressCountry: "PE" },
   telephone: hostal.telefonoVisible,
   email: hostal.email,
   checkinTime: hostal.checkIn,

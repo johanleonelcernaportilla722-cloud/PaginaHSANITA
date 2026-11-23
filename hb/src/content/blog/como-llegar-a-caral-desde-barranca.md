@@ -45,4 +45,4 @@ La civilización Caral no fue solo una ciudad. Puedes completar la experiencia c
 - Zapatillas cómodas.
 - Efectivo, por si lo necesitas en boletería o movilidad.
 
-> Consejo de anfitrión: desayuna temprano en el hostal y sal para llegar cuando abren. Recorrerás con menos sol y menos gente.
+> Consejo de anfitrión: toma desayuno temprano en el mercado de Barranca, cerca del hostal, y sal para llegar cuando abren. Recorrerás con menos sol y menos gente.
