@@ -48,27 +48,23 @@ const grupos = [
 </section>
 
 <style is:global>
-.comer{background:var(--sea);color:#fff}
-.comer .lead{color:#cfe7e6;max-width:60ch}
-.comer h2{color:#fff}
+.comer{background:var(--bg)}
 .comer-cab{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px 40px}
-.comer-grupo{margin-top:clamp(32px,4vw,48px)}
-.comer-gcab{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;border-top:3px solid var(--sun);padding-top:14px}
-.comer-mom{font:600 clamp(1.3rem,2vw,1.55rem)/1.2 var(--display);color:var(--sun);margin:0}
-.comer-nota{color:#cfe7e6;margin:0;font-size:.95rem}
-.comer-lista{list-style:none;padding:0;margin:20px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(16px,2.4vw,28px)}
-.plato{background:#063f4c;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
-.plato-foto{margin:0;position:relative;aspect-ratio:4/3;background:#0e6a7c}
-.plato-foto{overflow:hidden}
-.plato-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
-.plato:hover .plato-foto img{transform:scale(1.04)}
-.plato-foto figcaption{z-index:1;position:absolute;right:6px;bottom:6px;font:500 .68rem/1.2 var(--text);color:#fff;background:rgba(3,49,59,.72);padding:3px 7px;border-radius:999px;max-width:calc(100% - 12px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.plato-foto figcaption a{color:#fff;text-decoration:underline}
-.plato-txt{padding:16px 18px 20px}
-.plato h4{font:600 1.2rem/1.25 var(--display);color:#fff;margin:0}
-.plato-de{display:inline-block;font:700 .72rem/1 var(--text);color:#063f4c;background:#cfe7e6;border-radius:999px;padding:4px 8px;margin-left:4px;vertical-align:2px;white-space:nowrap}
-.plato p{color:#dcefee;margin:8px 0 0;line-height:1.55}
-.comer-pie{margin-top:clamp(28px,4vw,40px);color:#cfe7e6}
-.comer-pie a{color:#fff;text-decoration:underline;text-underline-offset:3px}
-@media (prefers-reduced-motion:reduce){.plato-foto img{transition:none}}
+.comer-grupo{margin-top:clamp(40px,5vw,64px);display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:20px 40px}
+.comer-gcab{border-top:1px solid var(--ink);padding-top:14px}
+.comer-mom{font:400 22px/1.2 var(--display);color:var(--ink);margin:0}
+.comer-nota{color:var(--muted);margin:6px 0 0;font-size:15px}
+.comer-lista{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:32px 24px}
+.plato{display:flex;flex-direction:column}
+.plato-foto{margin:0;position:relative;aspect-ratio:4/3;background:var(--soft);overflow:hidden;border-radius:var(--r)}
+.plato-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.plato-foto figcaption{position:absolute;left:0;bottom:0;font:400 11px/1.2 var(--text);color:#fff;background:rgba(22,39,43,.7);padding:4px 8px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plato-foto figcaption a{color:#fff}
+.plato-txt{padding:14px 0 0}
+.plato h4{font:400 20px/1.25 var(--display);color:var(--ink);margin:0}
+.plato-de{display:block;font:600 13px/1.4 var(--text);color:var(--sea);margin-top:4px}
+.plato p{color:var(--muted);margin:6px 0 0;line-height:1.55;font-size:16px}
+.comer-pie{margin-top:clamp(36px,4vw,56px);color:var(--muted)}
+.comer-pie a{color:var(--sea);font-weight:600}
+@media (max-width:760px){.comer-grupo{grid-template-columns:minmax(0,1fr)}}
 </style>

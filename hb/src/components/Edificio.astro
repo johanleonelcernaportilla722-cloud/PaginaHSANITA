@@ -17,7 +17,7 @@ const pts = (...q: number[][]) => q.map((p) => P(p[0], p[1], p[2]).map((v) => v.
 const W = N * C * s + ox + 170, Hh = (N + D) * S * s + oy + 60;
 
 const tipo = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
-const colorTipo: Record<string, string> = { matrimonial: "#d1a457", doble: "#08b3b2", familiar: "#e07a5f" };
+const colorTipo: Record<string, string> = { matrimonial: "#d1a457", doble: "#08b3b2", familiar: "#2f8f93" };
 
 // rectángulo en una fachada: frente (y = D, eje x) o costado (x = N, eje y; a=0 es la esquina frontal)
 const q = (cara: string, a: number, z: number) => (cara === "frente" ? [a, D, z] : [N, D - a, z]);
@@ -303,10 +303,10 @@ const precios = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
 </script>
 
 <style is:global>
-.reservar3d{background:linear-gradient(180deg,var(--bg) 0%,var(--soft) 100%)}
+.reservar3d{background:var(--soft)}
 .r3d{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(20px,4vw,48px);align-items:start;margin-top:20px}
 .r3d-filtros{display:flex;flex-wrap:wrap;gap:8px}
-.chip{min-height:40px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:600 15px var(--text);cursor:pointer}
+.chip{min-height:40px;padding:0 16px;border-radius:var(--r);border:1px solid var(--line);background:var(--bg);color:var(--ink);font:600 15px var(--text);cursor:pointer}
 .chip.activo{background:var(--sea);border-color:var(--sea);color:#fff}
 .edif{display:block;width:100%;height:auto;max-height:max(380px,min(calc(100vh - 230px),620px));margin:16px auto 0}
 .e-otro{font:700 11px var(--text);fill:#6b604f}
@@ -330,7 +330,7 @@ const precios = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
 .ancla{position:absolute;top:0}
 .reservar3d{position:relative}
 .tipos{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
-.tipos li{background:var(--bg);border:2px solid var(--line);border-left:6px solid var(--c);border-radius:14px;padding:14px 16px;display:grid;gap:6px}
+.tipos li{background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:var(--r);padding:14px 16px;display:grid;gap:6px}
 .tipo-cab{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .tipo-cab b{font:700 19px var(--display);color:var(--sea-ink)}
 .tipo-color{width:14px;height:14px;border-radius:4px;background:var(--c)}
@@ -339,9 +339,9 @@ const precios = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
 .tipo-precio b{font-size:20px}
 .leyenda{list-style:none;display:flex;flex-wrap:wrap;gap:8px 20px;padding:0;margin:12px 0 0;font-size:15px}
 .leyenda span{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:8px;vertical-align:-2px}
-.r3d-panel{background:var(--bg);border:2px solid var(--line);border-radius:20px;padding:clamp(18px,3vw,28px);display:grid;gap:16px;position:sticky;top:90px}
+.r3d-panel{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:clamp(18px,3vw,28px);display:grid;gap:16px;position:sticky;top:90px}
 .r3d-panel label{display:grid;gap:6px;font-weight:600;font-size:15px}
-.r3d-panel input,.r3d-panel select{font:16px var(--text);min-height:48px;padding:0 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+.r3d-panel input,.r3d-panel select{font:16px var(--text);min-height:48px;padding:0 12px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg);color:var(--ink);width:100%}
 .r3d-panel input:focus,.r3d-panel select:focus{border-color:var(--sea);outline:none}
 .r3-cab{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
 .r3-h{font-size:24px;color:var(--sea-ink)}
@@ -349,14 +349,14 @@ const precios = Object.fromEntries(habitaciones.map((h) => [h.id, h]));
 .r3-piso-btn{display:block;margin-top:6px}
 .r3-piso-btn[hidden]{display:none}
 .r3-lista{list-style:none;padding:0;margin:0;display:grid;gap:8px;max-height:300px;overflow:auto}
-.r3-lista li{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--soft);border-radius:12px;padding:10px 12px;border-left:4px solid var(--gold)}
+.r3-lista li{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--soft);border-radius:var(--r);padding:10px 12px;border-left:4px solid var(--gold)}
 .r3-lista b{color:var(--sea-ink)}
 .r3-lista span{font-size:15px}
 .r3-lista small{display:block;color:var(--muted);font-size:13px}
-.r3-quitar{flex:none;min-height:36px;padding:0 12px;border-radius:999px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:600 14px var(--text);cursor:pointer}
+.r3-quitar{flex:none;min-height:36px;padding:0 12px;border-radius:var(--r);border:1px solid var(--line);background:var(--bg);color:var(--ink);font:600 14px var(--text);cursor:pointer}
 .r3-quitar:hover{border-color:var(--sea)}
 .r3-resumen{font-weight:700}
-.r3-vacio{background:var(--soft);border-radius:14px;padding:18px;color:var(--muted)}
+.r3-vacio{background:var(--soft);border-radius:var(--r);padding:18px;color:var(--muted)}
 .r3-piso{color:var(--muted);font-size:14px;font-weight:600}
 #r3-tit{font-size:26px;color:var(--sea-ink);margin:2px 0 6px}
 .r3-precio b{font-size:22px}

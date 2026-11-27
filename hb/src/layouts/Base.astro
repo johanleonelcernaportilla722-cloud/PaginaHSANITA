@@ -1,4 +1,8 @@
 ---
+import "@fontsource/young-serif/400.css";
+import "@fontsource/overpass/400.css";
+import "@fontsource/overpass/600.css";
+import "@fontsource/overpass/800.css";
 import { u } from "../utils/url";
 import { hostal } from "../data/hostal";
 const {
@@ -44,9 +48,6 @@ const negocio = {
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:locale" content="es_PE" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Overpass:wght@400;600;800&display=swap" rel="stylesheet" />
   <script type="application/ld+json" set:html={JSON.stringify(negocio)} />
   {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
 </head>
@@ -83,45 +84,47 @@ const negocio = {
 
 <style is:global>
 /*
-VOICE: cálido, directo, de anfitrión que conoce la zona.
-IDEA: la Panamericana Norte como guía: cada atractivo es un hito de kilómetro, y el hostal está en el km 190.
-PICTURE: escena costera al atardecer: mar, dunas, la pirámide escalonada de Caral y el hostal con luces encendidas junto a la carretera.
-COLOUR and TYPE: petróleo del logo #0A5263 dominante, arena #EBCB98 de apoyo, dorado de la golondrina #E4B866 como acento; Playfair Display y Cormorant Garamond, las letras del logo, para títulos, Overpass (letra de señal vial) para texto y kilómetros.
-LAYOUT: escena a todo el ancho con el título en el cielo; regla de kilómetros; habitaciones; reserva en una columna; preguntas y pie.
+IDEA: el hito kilométrico de la Panamericana Norte. Barranca está en el km 190;
+el hito es la firma de la web y se repite en el mapa y en las guías.
+COLOR: blanco cal, neblina (el cielo gris de la costa), petróleo del logo,
+dorado de la golondrina solo para la acción principal, tinta para el texto.
+LETRA: Young Serif para títulos (cálida, de letrero de provincia);
+Overpass para texto y números (viene de la letra de las señales viales).
 */
 :root{
-  color-scheme:light dark;
-  --bg:light-dark(#ffffff,#0a1c22);
-  --soft:light-dark(#eef5f4,#0f272e);
-  --ink:light-dark(#10262c,#e8f1f0);
-  --muted:light-dark(#46636a,#9fb8bb);
-  --line:light-dark(#d3e2e0,#20404a);
-  --sea:#0a5263; --sea-deep:#063f4c; --aqua:#08b3b2; --gold:#d1a457;
-  --sand:#ebcb98; --sun:#e4b866;
-  --focus:light-dark(#0e5361,#ffc23d);
-  --sea-ink:light-dark(#0a5263,#7fd6d3);
-  --display:"Playfair Display",Georgia,serif;
-  --script:"Cormorant Garamond",Georgia,serif;
+  color-scheme:light;
+  --bg:#ffffff;
+  --soft:#e8eeee;          /* neblina */
+  --ink:#16272b;           /* tinta */
+  --muted:#4f6266;
+  --line:#cfd9d9;
+  --sea:#0a5263; --sea-deep:#073c48; --aqua:#2f8f93; --gold:#c9963e;
+  --sand:#efe3cb; --sun:#e4b866;
+  --focus:#0a5263;
+  --sea-ink:#0a5263;
+  --display:"Young Serif",Georgia,serif;
+  --script:"Young Serif",Georgia,serif;
   --text:"Overpass",system-ui,sans-serif;
+  --r:4px;
 }
-:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
-html{scroll-behavior:smooth;scroll-padding-top:72px}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--text);overflow-x:clip}
-h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.08;text-wrap:balance;margin:0}
-h2{font-size:clamp(30px,4.2vw,46px)}
-h3{font-size:22px;font-weight:500}
-p{margin:0}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
-.wrap{max-width:1240px;margin:0 auto}
-.band{padding:clamp(48px,7vw,96px) max(5vw,16px)}
-.lead{font-size:19px;color:var(--muted);max-width:62ch;margin-top:14px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 24px;border-radius:999px;font:800 16px/1 var(--text);text-decoration:none;border:0;cursor:pointer}
-.btn-sun{background:var(--sun);color:#10262c}
-.btn-sun:hover{background:#efc97f}
-.btn-ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
-.btn-ghost:hover{box-shadow:inset 0 0 0 2px #fff}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.62 var(--text);overflow-x:clip;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);font-weight:400;line-height:1.12;text-wrap:balance;margin:0;letter-spacing:-.005em}
+h2{font-size:clamp(28px,3.4vw,40px)}
+h3{font-size:21px}
+p{margin:0;text-wrap:pretty}
+a{color:inherit;text-underline-offset:3px}
+::selection{background:var(--sun);color:var(--ink)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:2px}
+.wrap{max-width:1180px;margin:0 auto}
+.band{padding:clamp(56px,8vw,112px) max(5vw,20px)}
+.lead{font-size:18px;color:var(--muted);max-width:58ch;margin-top:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 22px;border-radius:var(--r);font:800 16px/1 var(--text);text-decoration:none;border:0;cursor:pointer;transition:background-color .15s}
+.btn-sun{background:var(--sun);color:var(--ink)}
+.btn-sun:hover{background:#d9a94f}
+.btn-ghost{background:transparent;color:var(--sea);box-shadow:inset 0 0 0 2px var(--sea)}
+.btn-ghost:hover{background:var(--soft)}
 .km{font-family:var(--text);font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
 </style>

@@ -1,12 +1,9 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
-// GitHub Pages: https://johanleonelcernaportilla722-cloud.github.io/PaginaHSANITA/
-// Cuando tengas tu propio dominio (por ejemplo hostalanita.pe):
-//   site: "https://hostalanita.pe",  y borra la línea "base".
+// Dominio propio: https://hostalanita.net.pe (configurado en GitHub → Settings → Pages)
 export default defineConfig({
-  site: "https://johanleonelcernaportilla722-cloud.github.io",
-  base: "/PaginaHSANITA",
+  site: "https://hostalanita.net.pe",
   trailingSlash: "always",
   integrations: [sitemap()],
   build: { inlineStylesheets: "always" },

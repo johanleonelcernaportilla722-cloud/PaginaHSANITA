@@ -90,7 +90,7 @@ const jsonld = [
 </Base>
 <style>
 .post-foto{margin:0}
-.post-foto img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:20px;display:block;background:var(--soft)}
+.post-foto img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--r);display:block;background:var(--soft)}
 .post-foto figcaption{font-size:13px;color:var(--muted);margin-top:8px}
 .post-foto figcaption a{color:inherit}
 .angosto{max-width:780px;margin:0 auto}
@@ -98,9 +98,9 @@ const jsonld = [
 .post-cab h1{font-size:clamp(32px,5vw,50px);color:var(--sea-ink)}
 .post-meta{font-size:15px;color:var(--muted);margin-top:14px}
 .portada-post{padding:0 max(5vw,16px)}
-.portada-post :global(svg){border-radius:18px}
+.portada-post :global(svg){border-radius:var(--r)}
 .post-cuerpo{padding-top:36px}
-.indice{background:var(--soft);border-radius:14px;padding:18px 22px;margin-bottom:32px}
+.indice{background:var(--soft);border-radius:var(--r);padding:18px 22px;margin-bottom:32px}
 .indice p{font-weight:800;margin-bottom:6px}
 .indice ol{margin:0;padding-left:20px}
 .indice a{color:var(--sea-ink)}
@@ -115,10 +115,10 @@ const jsonld = [
 .prosa :global(table){width:100%;border-collapse:collapse;margin:0 0 22px;font-size:16px}
 .prosa :global(th),.prosa :global(td){text-align:left;padding:10px;border-bottom:1px solid var(--line)}
 .prosa :global(th){background:var(--soft)}
-.cta-post{margin-top:40px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center;background:var(--sea);color:#fff;border-radius:18px;padding:24px}
+.cta-post{margin-top:40px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center;background:var(--sea);color:#fff;border-radius:var(--r);padding:24px}
 .cta-post h2{font-size:26px}
 .cta-post p{color:#dcefee;margin-top:4px}
-.cta-post img{background:#fff;border-radius:12px;padding:8px;width:84px;height:auto}
+.cta-post img{background:#fff;border-radius:var(--r);padding:8px;width:84px;height:auto}
 .suave-blog{background:var(--soft)}
 @media (max-width:700px){.cta-post{grid-template-columns:minmax(0,1fr)}.prosa :global(table){display:block;overflow-x:auto}}
 </style>

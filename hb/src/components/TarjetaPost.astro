@@ -22,16 +22,16 @@ const src = (x: string) => (x.startsWith("http") ? x : u(x));
   </a>
 </article>
 <style is:global>
-.tposts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:22px;margin-top:32px}
-.tpost{border:2px solid var(--line);border-radius:18px;overflow:hidden;background:var(--bg)}
-.tpost:hover{border-color:var(--sea)}
+.tposts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:40px 28px;margin-top:36px}
 .tpost-link{display:block;text-decoration:none;color:inherit;height:100%}
-.tpost-foto{position:relative;margin:0;aspect-ratio:5/3;overflow:hidden;background:var(--soft)}
-.tpost-foto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
-.tpost:hover .tpost-foto img{transform:scale(1.04)}
-@media (prefers-reduced-motion:reduce){.tpost-foto img{transition:none}}
-.tpost-foto figcaption{position:absolute;right:6px;bottom:6px;font:500 11px/1.2 var(--text);color:#fff;background:rgba(3,49,59,.72);padding:3px 7px;border-radius:999px;max-width:calc(100% - 12px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tpost-in{padding:18px 20px 22px;display:grid;gap:8px}
+.tpost-foto{position:relative;margin:0;aspect-ratio:3/2;overflow:hidden;background:var(--line);border-radius:var(--r)}
+.tpost-foto img{width:100%;height:100%;object-fit:cover;display:block}
+.tpost-foto figcaption{position:absolute;left:0;bottom:0;font:400 11px/1.2 var(--text);color:#fff;background:rgba(22,39,43,.7);padding:4px 8px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tpost-in{padding:16px 0 0;display:grid;gap:8px}
 .tpost h3{font-size:22px;line-height:1.2}
-.tpost-meta,.tpost-fecha{font-size:14px;color:var(--muted)}
+.tpost-link:hover h3{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.tpost-meta{font-size:14px;color:var(--sea);font-weight:600}
+.tpost-in>p:not([class]){color:var(--muted);font-size:16px}
+.tpost-fecha{font-size:14px;color:var(--muted)}
+.tpost .portada{border-radius:var(--r)}
 </style>

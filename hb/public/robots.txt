@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://johanleonelcernaportilla722-cloud.github.io/PaginaHSANITA/sitemap-index.xml
+Sitemap: https://hostalanita.net.pe/sitemap-index.xml
